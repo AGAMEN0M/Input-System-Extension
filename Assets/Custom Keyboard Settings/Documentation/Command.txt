@@ -1,1 +1,2 @@
-Give a detailed explanation of the script
+Give a detailed explanation of the script without using csharp
+

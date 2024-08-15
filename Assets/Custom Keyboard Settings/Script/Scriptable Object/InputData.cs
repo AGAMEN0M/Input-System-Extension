@@ -1,3 +1,10 @@
+/*
+ * ---------------------------------------------------------------------------
+ * Description: Stores Tag and KeyCode information.
+ * Author: Lucas Gomes Cecchini
+ * Pseudonym: AGAMENOM
+ * ---------------------------------------------------------------------------
+*/
 using UnityEngine;
 
 /*[CreateAssetMenu(fileName = "InputData", menuName = "ScriptableObjects/InputData", order = 1)]*/

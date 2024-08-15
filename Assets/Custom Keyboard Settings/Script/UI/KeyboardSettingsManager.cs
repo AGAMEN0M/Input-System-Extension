@@ -1,3 +1,13 @@
+/*
+ * ---------------------------------------------------------------------------
+ * Description: Manages keyboard settings in Unity by allowing users to select, 
+ *              reset, and save KeyCode settings through a UI interface. It handles
+ *              input detection, ensures KeyCode uniqueness among multiple managers, 
+ *              and persists settings using KeyboardControlData.
+ * Author: Lucas Gomes Cecchini
+ * Pseudonym: AGAMENOM
+ * ---------------------------------------------------------------------------
+*/
 using System.Collections.Generic;
 using UnityEngine.UI;
 using UnityEngine;
@@ -6,46 +16,44 @@ using UnityEngine;
 public class KeyboardSettingsManager : MonoBehaviour
 {
     [Header("UI Elements")]
-    [SerializeField] private Button selectButton; // Button to select a new KeyCode.
-    [SerializeField] private Text selectedButtonText; // Text showing the selected KeyCode.
-    [SerializeField] private Button resetButton; // Button to reset to the default KeyCode.
+    [SerializeField] private Button selectButton; // Button to initiate the selection of a new KeyCode.
+    [SerializeField] private Text selectedButtonText; // Text element displaying the currently selected KeyCode.
+    [SerializeField] private Button resetButton; // Button to reset the KeyCode to its default value.
     [Space(5)]
     [Header("Default Settings")]
-    [SerializeField] private KeyCode defaultKeyCode = KeyCode.E; // Default KeyCode.
+    [SerializeField] private KeyCode defaultKeyCode = KeyCode.E; // The default KeyCode to use when resetting.
     [Space(5)]
     [Header("Save Settings")]
-    [SerializeField] private InputData inputData; // InputData associated with the current settings.
-    [Space(5)]
-    [SerializeField] private string keyboardTag = "DefaultTag"; // Tag to associate with the KeyCode in KeyboardControlData.
-    [SerializeField] private KeyboardControlData keyboardControlData; // Data for saving and loading settings.
+    [SerializeField] private string keyboardTag = "DefaultTag"; // Unique tag used to associate this KeyCode with the corresponding InputData in KeyboardControlData.
 
-    [HideInInspector] public KeyCode currentKeyCode = KeyCode.None; // Current selected KeyCode.
+    [HideInInspector] public KeyCode currentKeyCode = KeyCode.None; // The currently selected KeyCode.
 
-    private KeyCode previousKeyCode = KeyCode.None; // Previously selected KeyCode.
-    private bool isListening = false; // Indicates if the script is waiting for a new keyboard input.
-    private List<KeyboardSettingsManager> otherManagers; // List of other KeyboardSettingsManager in the scene to avoid KeyCode conflicts.
+    private InputData inputData; // The InputData associated with the current settings, retrieved by the keyboardTag.
+    private KeyCode previousKeyCode = KeyCode.None; // Stores the KeyCode before the new selection begins, used for comparison and UI updates.
+    private bool isListening = false; // Indicates whether the manager is currently listening for a new keyboard input.
+    private List<KeyboardSettingsManager> otherManagers; // List of other KeyboardSettingsManager instances in the scene, used to avoid KeyCode conflicts.
 
-    private float delayTimer = 0f; // Timer to control the delay before starting to listen for new keyboard inputs.
-    private bool isDelaying = false; // Indicates if the system is in a delay state, waiting to start listening for new keyboard inputs.
+    private float delayTimer = 0f; // Timer used to delay the start of listening for new keyboard inputs.
+    private bool isDelaying = false; // Indicates whether a delay is in progress before listening for new input.
 
     private void OnSelectButtonClick()
     {
-        // Start listening for new input with a delay if not already delaying or listening.
+        // Begin listening for a new input after a short delay, if not already in a delay or listening state.
         if (!isDelaying && !isListening)
         {
-            delayTimer = Time.realtimeSinceStartup + 0.5f;
-            isDelaying = true;
+            delayTimer = Time.realtimeSinceStartup + 0.5f; // Set a 0.5-second delay before accepting new input.
+            isDelaying = true; // Mark that the system is now in a delaying state.
         }
 
-        isListening = true;
-        selectedButtonText.text = $"> {previousKeyCode} <";
+        isListening = true; // Begin listening for a new KeyCode.
+        selectedButtonText.text = $"> {previousKeyCode} <"; // Update the UI to indicate the current key selection process.
     }
 
     private void OnResetButtonClick()
     {
-        // Set to default settings and save.
-        SetDefaultSettings();
-        SaveSettings();
+        // Reset the KeyCode to the default setting and save the updated settings.
+        SetDefaultSettings(); // Set the KeyCode back to its default value.
+        SaveSettings(); // Save the new settings.
     }
 
     private void Start()
@@ -53,91 +61,80 @@ public class KeyboardSettingsManager : MonoBehaviour
         // Initialize the list of other KeyboardSettingsManager instances in the scene.
         otherManagers = new List<KeyboardSettingsManager>(FindObjectsOfType<KeyboardSettingsManager>());
 
-        // Add listeners for button clicks.
-        selectButton.onClick.RemoveListener(OnSelectButtonClick);
-        resetButton.onClick.RemoveListener(OnResetButtonClick);
+        // Ensure that the button click listeners are set up correctly.
+        selectButton.onClick.RemoveListener(OnSelectButtonClick); // Remove any existing listeners to avoid duplicates.
+        resetButton.onClick.RemoveListener(OnResetButtonClick); // Remove any existing listeners to avoid duplicates.
 
-        selectButton.onClick.AddListener(OnSelectButtonClick);
-        resetButton.onClick.AddListener(OnResetButtonClick);
+        selectButton.onClick.AddListener(OnSelectButtonClick); // Add listener for the select button.
+        resetButton.onClick.AddListener(OnResetButtonClick); // Add listener for the reset button.
 
-        // Load saved settings or set default settings.
+        // Attempt to load the saved settings or fall back to default settings if no saved data is found.
+        inputData = KeyboardTagHelper.GetInputFromTag(keyboardTag); // Retrieve the associated InputData by tag.
         if (inputData != null)
         {
-            SetSettings();
-        }
-        else if (keyboardControlData != null)
-        {
-            inputData = KeyboardTagHelper.GetInputFromTag(keyboardControlData, keyboardTag);
-            if (inputData != null)
-            {
-                SetSettings();
-            }
-            else
-            {
-                SetDefaultSettings();
-            }
+            SetSettings(); // Load and apply the saved settings.
         }
         else
         {
-            SetDefaultSettings();
+            SetDefaultSettings(); // If no saved settings are found, apply the default settings.
         }
     }
 
     private void SetSettings()
     {
-        // Set the current KeyCode from the provided InputData and update UI.
-        currentKeyCode = inputData.keyboard;
-        previousKeyCode = currentKeyCode;
-        selectedButtonText.text = previousKeyCode.ToString();
+        // Apply the KeyCode from the saved InputData and update the UI.
+        currentKeyCode = inputData.keyboard; // Set the current KeyCode to the value stored in InputData.
+        previousKeyCode = currentKeyCode; // Synchronize the previous KeyCode with the current KeyCode.
+        selectedButtonText.text = previousKeyCode.ToString(); // Update the UI text to reflect the selected KeyCode.
     }
 
     private void SetDefaultSettings()
     {
-        // Set to default KeyCode and update UI.
-        currentKeyCode = defaultKeyCode;
-        previousKeyCode = defaultKeyCode;
-        selectedButtonText.text = previousKeyCode.ToString();
+        // Apply the default KeyCode and update the UI.
+        currentKeyCode = defaultKeyCode; // Set the current KeyCode to the default value.
+        previousKeyCode = defaultKeyCode; // Synchronize the previous KeyCode with the default KeyCode.
+        selectedButtonText.text = previousKeyCode.ToString(); // Update the UI text to display the default KeyCode.
     }
 
     private void Update()
     {
-        // Listen for new keyboard input if currently listening.
+        // Continuously check for new keyboard inputs if currently in listening mode.
         if (isListening)
         {
-            ListenForNewInput();
+            ListenForNewInput(); // Process the new input if detected.
         }
 
-        // Update the interactability of the reset button based on the current KeyCode.
-        resetButton.interactable = currentKeyCode != defaultKeyCode;
+        // Enable or disable the reset button based on whether the current KeyCode matches the default.
+        resetButton.interactable = currentKeyCode != defaultKeyCode; // Allow reset only if the KeyCode has changed from the default.
 
-        // Update delay timer if delaying.
+        // Manage the delay timer for input detection.
         if (isDelaying)
         {
-            // Allow new input detection if the delay timer has elapsed.
+            // If the delay timer has expired, stop delaying and begin listening.
             float currentTime = Time.realtimeSinceStartup;
             if (currentTime >= delayTimer)
             {
-                isDelaying = false;
+                isDelaying = false; // End the delay and allow input to be detected.
             }
         }
     }
 
     private void ListenForNewInput()
     {
-        // Iterate through all KeyCodes to find a new keyboard input.
+        // Iterate through all possible KeyCodes to detect a new input.
         foreach (KeyCode keyCode in System.Enum.GetValues(typeof(KeyCode)))
         {
-            if (Input.GetKeyDown(keyCode) && !isDelaying)
+            if (Input.GetKeyDown(keyCode) && !isDelaying) // Check if a key is pressed and if not currently delaying.
             {
-                // Check if the KeyCode is not used by other managers.
+                // Verify that the new KeyCode is not already in use by another KeyboardSettingsManager.
                 if (!IsKeyCodeUsedByOtherManagers(keyCode))
                 {
-                    // Update KeyCode, UI, and save settings.
-                    currentKeyCode = keyCode;
-                    previousKeyCode = keyCode;
-                    selectedButtonText.text = keyCode.ToString();
-                    isListening = false;
-                    SaveSettings();
+                    // Apply the new KeyCode, update the UI, and save the new settings.
+                    currentKeyCode = keyCode; // Set the current KeyCode to the newly detected key.
+                    previousKeyCode = keyCode; // Update the previous KeyCode to match the new selection.
+                    selectedButtonText.text = keyCode.ToString(); // Update the UI text with the new KeyCode.
+                    isListening = false; // Stop listening for further inputs.
+                    SaveSettings(); // Save the updated KeyCode settings.
                 }
                 else
                 {
@@ -149,35 +146,28 @@ public class KeyboardSettingsManager : MonoBehaviour
 
     private bool IsKeyCodeUsedByOtherManagers(KeyCode keyCode)
     {
-        // Check if the KeyCode is used by other managers in the scene.
+        // Check if the provided KeyCode is already used by another manager in the scene.
         foreach (var manager in otherManagers)
         {
-            if (manager != this && manager.currentKeyCode == keyCode)
+            if (manager != this && manager.currentKeyCode == keyCode) // Ensure it’s not the current manager instance.
             {
-                return true;
+                return true; // Return true if the KeyCode is found to be in use by another manager.
             }
         }
-        return false;
+        return false; // Return false if the KeyCode is not in use by any other manager.
     }
 
     private void SaveSettings()
     {
-        // Save settings to KeyboardControlData.
-        if (keyboardControlData != null)
+        // Save the current settings to the KeyboardControlData.
+        if (inputData != null)
         {
-            if (inputData != null)
-            {
-                KeyboardTagHelper.SetKey(inputData, currentKeyCode);
-                KeyboardTagHelper.SaveKeyboardControlData(keyboardControlData);
-            }
-            else
-            {
-                Debug.LogError($"No InputData found with tag '{keyboardTag}'.");
-            }
+            KeyboardTagHelper.SetKey(inputData, currentKeyCode); // Update the KeyCode in the associated InputData.
+            KeyboardTagHelper.SaveKeyboardControlData(); // Save the changes to persistent storage.
         }
         else
         {
-            Debug.LogError("A KeyboardControlData is required.");
+            Debug.LogError($"No InputData found with tag '{keyboardTag}'.");
         }
     }
 }

@@ -501,9 +501,7 @@ MonoBehaviour:
   selectedButtonText: {fileID: 600162762}
   resetButton: {fileID: 639635752}
   defaultKeyCode: 49
-  inputData: {fileID: 11400000, guid: 44d17c0dab83b9d41b99a21690d8432c, type: 2}
   keyboardTag: Test 1
-  keyboardControlData: {fileID: 11400000, guid: 5518016c8db9e84409d526509986397e, type: 2}
   currentKeyCode: 0
 --- !u!114 &389922525
 MonoBehaviour:
@@ -1544,9 +1542,7 @@ MonoBehaviour:
   selectedButtonText: {fileID: 295015851}
   resetButton: {fileID: 1586945657}
   defaultKeyCode: 50
-  inputData: {fileID: 11400000, guid: 43fbd6b5a006e7349aeae68755524b7a, type: 2}
-  keyboardTag: DefaultTag
-  keyboardControlData: {fileID: 11400000, guid: 5518016c8db9e84409d526509986397e, type: 2}
+  keyboardTag: Test 2
   currentKeyCode: 0
 --- !u!114 &1271514090
 MonoBehaviour:

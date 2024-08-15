@@ -1,41 +1,96 @@
+/*
+ * ---------------------------------------------------------------------------
+ * Description: A utility class for managing and persisting keyboard control data 
+ *              within a Unity project. It handles retrieval, updating, and saving 
+ *              of InputData associated with specific keyboard tags using PlayerPrefs.
+ * Author: Lucas Gomes Cecchini
+ * Pseudonym: AGAMENOM
+ * ---------------------------------------------------------------------------
+*/
 using System.Collections.Generic;
 using UnityEngine;
 
-// Helper class for working with keyboard control data.
+// Helper class for managing keyboard control data.
 public static class KeyboardTagHelper
 {
-    // Retrieve the InputData associated with a specific tag.
-    public static InputData GetInputFromTag(KeyboardControlData keyboardControlData, string tag)
+    // Retrieve the KeyboardControlData resource from the Resources folder.
+    public static KeyboardControlData GetKeyboardControlData()
     {
-        // Iterate through the inputDataList in the provided KeyboardControlData.
+        KeyboardControlData keyboardControlData = Resources.Load<KeyboardControlData>("Keyboard Control Data");
+
+        if (keyboardControlData == null)
+        {
+            Debug.LogError("Failed to load KeyboardControlData from Resources. Ensure the resource exists and is named correctly.");
+            return null;
+        }
+
+        return keyboardControlData;
+    }
+
+    // Retrieve the InputData associated with a specific keyboardTag.
+    public static InputData GetInputFromTag(string tag)
+    {
+        KeyboardControlData keyboardControlData = GetKeyboardControlData();
+        if (keyboardControlData == null)
+        {
+            Debug.LogError("KeyboardControlData is null.");
+            return null;
+        }
+
+        // Search for InputData with the specified keyboardTag.
         foreach (var inputData in keyboardControlData.inputDataList)
         {
-            // Check if the keyboardTag matches the specified tag.
             if (inputData.keyboardTag == tag)
             {
-                return inputData; // Return the InputData associated with the matching tag.
+                return inputData; // Return the InputData that matches the tag.
             }
         }
 
-        return null; // If no match is found, return null.
+        return null; // Return null if no matching InputData is found.
     }
 
-    // Set the KeyCode for the given InputData.
+    // Update the KeyCode for the specified InputData.
     public static void SetKey(InputData inputData, KeyCode newKeyCode)
     {
+        if (inputData == null)
+        {
+            Debug.LogError("InputData is null.");
+            return;
+        }
+
         inputData.keyboard = newKeyCode;
     }
 
-    // Save the keyboard control data to PlayerPrefs.
-    public static void SaveKeyboardControlData(KeyboardControlData keyboardControlData)
+    // Update the KeyCode for InputData associated with the specified tag.
+    public static void SetKeyFromTag(string tag, KeyCode newKeyCode)
     {
-        // Create a new data model for saving.
+        InputData inputData = GetInputFromTag(tag);
+        if (inputData == null)
+        {
+            Debug.LogError($"No InputData found with tag '{tag}'.");
+            return;
+        }
+
+        inputData.keyboard = newKeyCode;
+    }
+
+    // Save the current keyboard control data to PlayerPrefs.
+    public static void SaveKeyboardControlData()
+    {
+        KeyboardControlData keyboardControlData = GetKeyboardControlData();
+        if (keyboardControlData == null)
+        {
+            Debug.LogError("KeyboardControlData is null.");
+            return;
+        }
+
+        // Prepare a data model for saving.
         KeyboardControlDataSave data = new()
         {
             inputDataListSaves = new List<InputDataListSave>()
         };
 
-        // Convert each InputData to InputDataListSave and add to the list.
+        // Convert each InputData into InputDataListSave and add to the list.
         foreach (var inputData in keyboardControlData.inputDataList)
         {
             data.inputDataListSaves.Add(new InputDataListSave
@@ -45,38 +100,38 @@ public static class KeyboardTagHelper
             });
         }
 
-        // Convert the data to JSON and save it to PlayerPrefs.
+        // Serialize the data to JSON and save it to PlayerPrefs.
         string jsonData = JsonUtility.ToJson(data);
         PlayerPrefs.SetString("Keyboard Control Data", jsonData);
     }
 
-    // Load the keyboard control data from PlayerPrefs.
+    // Load keyboard control data from PlayerPrefs at runtime.
     [RuntimeInitializeOnLoadMethod]
     public static void LoadKeyboardControlData()
     {
-        // Check if PlayerPrefs has saved keyboard control data.
+        // Check if PlayerPrefs contains saved keyboard control data.
         if (PlayerPrefs.HasKey("Keyboard Control Data"))
         {
-            // Load the saved JSON data from PlayerPrefs.
+            // Retrieve and deserialize the JSON data from PlayerPrefs.
             string jsonData = PlayerPrefs.GetString("Keyboard Control Data");
             var data = JsonUtility.FromJson<KeyboardControlDataSave>(jsonData);
 
-            // Find or create a KeyboardControlData instance.
-            KeyboardControlData keyboardControlData = Resources.Load<KeyboardControlData>("Keyboard Control Data");
+            // Obtain the KeyboardControlData instance.
+            KeyboardControlData keyboardControlData = GetKeyboardControlData();
             if (keyboardControlData == null)
             {
-                Debug.LogError("Could not find keyboardControlData with name 'Keyboard Control Data'");
+                Debug.LogError("Could not find KeyboardControlData with name 'Keyboard Control Data'");
                 return;
             }
 
-            // Update keyboardControlData with the loaded data.
+            // Update the KeyboardControlData with the loaded data.
             foreach (var inputDataSave in data.inputDataListSaves)
             {
-                // Find the existing InputData with the matching keyboardTag.
-                InputData existingInputData = GetInputFromTag(keyboardControlData, inputDataSave.keyboardTag);
+                // Find the existing InputData by keyboardTag.
+                InputData existingInputData = GetInputFromTag(inputDataSave.keyboardTag);
                 if (existingInputData != null)
                 {
-                    // Update the existing InputData with the new key code.
+                    // Update the existing InputData with the saved KeyCode.
                     existingInputData.keyboard = inputDataSave.keyboard;
                 }
                 else
@@ -88,15 +143,17 @@ public static class KeyboardTagHelper
     }
 }
 
+// Serializable class for storing saved keyboard control data.
 [System.Serializable]
 public class KeyboardControlDataSave
 {
-    public List<InputDataListSave> inputDataListSaves; // List to store saved InputData objects.
+    public List<InputDataListSave> inputDataListSaves; // List of saved InputData objects.
 }
 
+// Serializable class for storing individual InputData for saving.
 [System.Serializable]
 public class InputDataListSave
 {
     public string keyboardTag; // Tag associated with the keyboard input.
-    public KeyCode keyboard; // KeyCode associated with the keyboard input.
+    public KeyCode keyboard; // KeyCode for the keyboard input.
 }

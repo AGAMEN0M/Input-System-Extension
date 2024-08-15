@@ -1,3 +1,10 @@
+/*
+ * ---------------------------------------------------------------------------
+ * Description: Groups the InputData.
+ * Author: Lucas Gomes Cecchini
+ * Pseudonym: AGAMENOM
+ * ---------------------------------------------------------------------------
+*/
 using System.Collections.Generic;
 using UnityEngine;
 

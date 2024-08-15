@@ -1,3 +1,12 @@
+/*
+ * ---------------------------------------------------------------------------
+ * Description: This script provides functionality to create and manage custom
+ *              Keyboard Control Data assets within the Unity Editor.
+ * Author: Lucas Gomes Cecchini
+ * Pseudonym: AGAMENOM
+ * ---------------------------------------------------------------------------
+*/
+using System.IO;
 using UnityEditor;
 using UnityEngine;
 
@@ -10,7 +19,7 @@ public class KeyboardControlDataCreator
     {
         // Specify the path where the asset will be saved.
         string path = "Assets/Resources";
-        string assetPath = path + "/Keyboard Control Data.asset";
+        string assetPath = $"{path}/Keyboard Control Data.asset";
 
         // Check if the Resources folder exists; if not, create it.
         if (!AssetDatabase.IsValidFolder(path)) { AssetDatabase.CreateFolder("Assets", "Resources"); }
@@ -35,5 +44,24 @@ public class KeyboardControlDataCreator
         // Focus on the Project window in the Unity Editor and select the created asset.
         EditorUtility.FocusProjectWindow();
         Selection.activeObject = asset;
+    }
+}
+
+[InitializeOnLoad]
+public static class KeyboardControlDataCreatorStartup
+{
+    static KeyboardControlDataCreatorStartup()
+    {
+        EditorApplication.delayCall += () =>
+        {
+            // Specify the path where the asset should be checked.
+            string assetPath = "Assets/Resources/Keyboard Control Data.asset";
+
+            // Check if the asset already exists; if not, create it.
+            if (!File.Exists(assetPath))
+            {
+                KeyboardControlDataCreator.CreateCustomObjectData();
+            }
+        };
     }
 }

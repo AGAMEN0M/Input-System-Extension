@@ -1,3 +1,12 @@
+/*
+ * ---------------------------------------------------------------------------
+ * Description: Custom editor for KeyboardControlData ScriptableObject in Unity.
+ *              Provides a user interface to manage InputData entries, including
+ *              detection, deletion, and saving of InputData assets.
+ * Author: Lucas Gomes Cecchini
+ * Pseudonym: AGAMENOM
+ * ---------------------------------------------------------------------------
+*/
 using System.Collections.Generic;
 using System.IO;
 using UnityEditor;
@@ -50,6 +59,7 @@ public class KeyboardControlDataInspector : Editor
 
                 EditorGUILayout.Space(10);
 
+                Color originalColor = GUI.backgroundColor;
                 GUI.backgroundColor = Color.red;
                 if (GUILayout.Button("Delete", GUILayout.Width(60)))
                 {
@@ -57,10 +67,11 @@ public class KeyboardControlDataInspector : Editor
                     if (EditorUtility.DisplayDialog("Confirm Delete", "Are you sure you want to delete this item?\nIt will not be possible to undo this operation.", "Delete", "Cancel"))
                     {
                         DeleteInputData(script, i);
+                        break;
                     }
                     continue;
                 }
-                GUI.backgroundColor = Color.white;
+                GUI.backgroundColor = originalColor;
                 EditorGUILayout.EndHorizontal();
 
                 // Display and edit the key code, with a detect button.
@@ -111,6 +122,7 @@ public class KeyboardControlDataInspector : Editor
         if (GUI.changed)
         {
             EditorUtility.SetDirty(script);
+            AssetDatabase.SaveAssets();
         }
 
         // Handle key detection if active.
@@ -190,6 +202,30 @@ public class KeyboardControlDataInspector : Editor
         string directory = Path.GetDirectoryName(assetPath);
         string folderPath = Path.Combine(directory, script.name);
 
+        // Dictionary to count occurrences of each keyboardTag.
+        Dictionary<string, int> tagCounts = new();
+
+        // First step: count how many times each keyboardTag appears.
+        foreach (InputData inputData in script.inputDataList)
+        {
+            if (inputData == null)
+            {
+                continue;
+            }
+
+            if (tagCounts.ContainsKey(inputData.keyboardTag))
+            {
+                tagCounts[inputData.keyboardTag]++;
+            }
+            else
+            {
+                tagCounts[inputData.keyboardTag] = 1;
+            }
+        }
+
+        // Step Two: Rename the files as needed.
+        Dictionary<string, int> currentTagCounter = new();
+
         foreach (InputData inputData in script.inputDataList)
         {
             if (inputData == null)
@@ -202,17 +238,34 @@ public class KeyboardControlDataInspector : Editor
             AssetDatabase.Refresh();
 
             string oldAssetPath = AssetDatabase.GetAssetPath(inputData);
-            string newFileName = $"{inputData.keyboardTag} (Input Data).asset";
-            string newAssetPath = Path.Combine(folderPath, newFileName);
+            string baseFileName = $"{inputData.keyboardTag} (Input Data)";
+            string newFileName;
 
-            int counter = 1;
-            while (AssetDatabase.LoadAssetAtPath<InputData>(newAssetPath) != null && oldAssetPath != newAssetPath)
+            // If the tag is duplicated, add a counter to the file name.
+            if (tagCounts[inputData.keyboardTag] > 1)
             {
-                newAssetPath = Path.Combine(folderPath, $"{inputData.keyboardTag} (Input Data) ({counter}).asset");
-                counter++;
+                if (!currentTagCounter.ContainsKey(inputData.keyboardTag))
+                {
+                    currentTagCounter[inputData.keyboardTag] = 1;
+                }
+                else
+                {
+                    currentTagCounter[inputData.keyboardTag]++;
+                }
+                newFileName = $"{baseFileName} ({currentTagCounter[inputData.keyboardTag]}).asset";
+            }
+            else
+            {
+                newFileName = $"{baseFileName}.asset";
             }
 
-            AssetDatabase.MoveAsset(oldAssetPath, newAssetPath);
+            string newAssetPath = Path.Combine(folderPath, newFileName);
+
+            // Move the asset only if the new path is different from the old one.
+            if (oldAssetPath != newAssetPath)
+            {
+                AssetDatabase.MoveAsset(oldAssetPath, newAssetPath);
+            }
         }
 
         AssetDatabase.SaveAssets();
