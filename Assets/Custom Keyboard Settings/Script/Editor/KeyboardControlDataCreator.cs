@@ -6,9 +6,9 @@
  * Pseudonym: AGAMENOM
  * ---------------------------------------------------------------------------
 */
-using System.IO;
 using UnityEditor;
 using UnityEngine;
+using System.IO;
 
 // Class for creating a custom asset in Unity.
 public class KeyboardControlDataCreator
