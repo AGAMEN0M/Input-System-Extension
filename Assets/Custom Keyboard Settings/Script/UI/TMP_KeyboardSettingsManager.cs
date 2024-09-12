@@ -26,7 +26,7 @@ public class TMP_KeyboardSettingsManager : MonoBehaviour
     [SerializeField] private KeyCode defaultKeyCode = KeyCode.E; // The default KeyCode to use when resetting.
     [Space(5)]
     [Header("Save Settings")]
-    [SerializeField] private string keyboardTag = "DefaultTag"; // Unique tag used to associate this KeyCode with the corresponding InputData in KeyboardControlData.
+    [SerializeField][KeyboardTagDropdown] private string keyboardTag = "DefaultTag"; // Unique tag used to associate this KeyCode with the corresponding InputData in KeyboardControlData.
 
     [HideInInspector] public KeyCode currentKeyCode = KeyCode.None; // The currently selected KeyCode.
 
