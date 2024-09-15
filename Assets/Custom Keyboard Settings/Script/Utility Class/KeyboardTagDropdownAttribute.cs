@@ -9,17 +9,20 @@
  * Pseudonym: AGAMENOM
  * ---------------------------------------------------------------------------
 */
+using UnityEngine;
+
 #if UNITY_EDITOR
 using System.Collections.Generic;
 using CustomKeyboard;
 using UnityEditor;
-using UnityEngine;
+#endif
 
 public class KeyboardTagDropdownAttribute : PropertyAttribute
 {
     // This attribute is just a marker, it does not need additional implementation.
 }
 
+#if UNITY_EDITOR
 [CustomPropertyDrawer(typeof(KeyboardTagDropdownAttribute))]
 public class KeyboardTagDropdownDrawer : PropertyDrawer
 {

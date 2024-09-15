@@ -3,7 +3,7 @@ A system that allows you to configure Keyboards easily using Scriptable Objects.
 
 # Download
 
-[Custom Keyboard Settings - Package v0.0.4](https://drive.google.com/file/d/12RGiT-Q0HElRNfNJchIAfI9_NRV-4HCN/view?usp=drive_link)
+[Custom Keyboard Settings - Package v0.0.4](https://drive.google.com/file/d/1X8-m8KFqq48KjJ2ajVzdjtLGJ2_hPZKh/view?usp=drive_link)
  / 
 [Documentation](https://drive.google.com/file/d/1uQDtT6TXr_9zklWdeTxIHVtT8AaZO73A/view?usp=drive_link)
 
