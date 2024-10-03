@@ -3,9 +3,9 @@ A system that allows you to configure Keyboards easily using Scriptable Objects.
 
 # Download
 
-[Custom Keyboard Settings - Package v0.0.4](https://drive.google.com/file/d/1X8-m8KFqq48KjJ2ajVzdjtLGJ2_hPZKh/view?usp=drive_link)
+[Custom Keyboard Settings - Package v0.0.5](https://drive.google.com/file/d/14EvodnSfxRL5MaJ9FhnChM17hAflQAAx/view?usp=drive_link)
  / 
-[Documentation](https://drive.google.com/file/d/1uQDtT6TXr_9zklWdeTxIHVtT8AaZO73A/view?usp=drive_link)
+[Documentation](https://drive.google.com/file/d/1QndxEEjIASnfsen9Phismg7bXOSZ8vJk/view?usp=drive_link)
 
 # Description
 
@@ -18,4 +18,4 @@ If you have suggestions for improvements and bug fixes, please share them with m
 # Old Versions
 [Old Versions - Package](https://drive.google.com/drive/folders/1882_aAK2gTwdIFMDfoZKAeK-3r-N3Z_2?usp=drive_link)
 
-Current version in Git v0.4
+Current version in Git v0.5
