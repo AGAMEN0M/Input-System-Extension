@@ -69,11 +69,11 @@ namespace CustomKeyboard
                 leftInputActive = true;
             }
 
-            // Handle key up events: resets active flags when keys are released.
-            if (Input.GetKeyUp(forwardInput.keyboard)) forwardInputActive = false;
-            if (Input.GetKeyUp(backInput.keyboard)) backInputActive = false;
-            if (Input.GetKeyUp(rightInput.keyboard)) rightInputActive = false;
-            if (Input.GetKeyUp(leftInput.keyboard)) leftInputActive = false;
+            // Handle key events: resets active flags when keys are released.
+            if (!Input.GetKey(forwardInput.keyboard)) forwardInputActive = false;
+            if (!Input.GetKey(backInput.keyboard)) backInputActive = false;
+            if (!Input.GetKey(rightInput.keyboard)) rightInputActive = false;
+            if (!Input.GetKey(leftInput.keyboard)) leftInputActive = false;
 
             // Prioritize forward or backward movement based on most recent key press.
             if (forwardInputActive && (!backInputActive || forwardLastPressedTime > backLastPressedTime))
