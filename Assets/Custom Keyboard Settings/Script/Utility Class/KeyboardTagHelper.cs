@@ -7,6 +7,7 @@
  * Pseudonym: AGAMENOM
  * ---------------------------------------------------------------------------
 */
+
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -74,6 +75,28 @@ namespace CustomKeyboard
             }
 
             inputData.keyboard = newKeyCode;
+        }
+
+        public static Sprite GetKeySprite(KeyCode keyCode)
+        {
+            KeyboardControlData keyboardControlData = GetKeyboardControlData();
+            if (keyboardControlData == null)
+            {
+                Debug.LogError("KeyboardControlData is null.");
+                return null;
+            }
+
+            // Look for the sprite associated with the KeyCode
+            foreach (var spriteList in keyboardControlData.keyCodesSprites)
+            {
+                if (spriteList.keyCode == keyCode)
+                {
+                    return spriteList.sprite;
+                }
+            }
+
+            // Return default sprite if no specific sprite is found.
+            return keyboardControlData.defaultSprite;
         }
 
         // Save the current keyboard control data to PlayerPrefs.
@@ -158,5 +181,12 @@ namespace CustomKeyboard
     {
         public string keyboardTag; // Tag associated with the keyboard input.
         public KeyCode keyboard; // KeyCode for the keyboard input.
+    }
+
+    [System.Serializable]
+    public class InputSpriteList
+    {
+        public KeyCode keyCode; // The KeyCode associated with this sprite. 
+        public Sprite sprite; // The Sprite that represents the key visually.
     }
 }

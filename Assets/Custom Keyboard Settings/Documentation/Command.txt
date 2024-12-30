@@ -1,3 +1,11 @@
 Give a detailed explanation of the script without using csharp
 
 
+
+/*
+ * ---------------------------------------------------------------------------
+ * Description: [Add a short description of the script here.]
+ * Author: Lucas Gomes Cecchini
+ * Pseudonym: AGAMENOM
+ * ---------------------------------------------------------------------------
+*/

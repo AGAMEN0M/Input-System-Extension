@@ -3,11 +3,15 @@
  * Description: Manages keyboard settings in Unity by allowing users to select, 
  *              reset, and save KeyCode settings through a UI interface. It handles
  *              input detection, ensures KeyCode uniqueness among multiple managers, 
- *              and persists settings using KeyboardControlData.
+ *              and persists settings using KeyboardControlData. It also provides
+ *              UI updates based on user selection, supports a delay timer before
+ *              accepting new inputs, and handles KeyCode conflicts across different
+ *              instances of KeyboardSettingsManager in the scene.
  * Author: Lucas Gomes Cecchini
  * Pseudonym: AGAMENOM
  * ---------------------------------------------------------------------------
 */
+
 using System.Collections.Generic;
 using CustomKeyboard;
 using UnityEngine.UI;
@@ -18,8 +22,10 @@ using TMPro;
 public class TMP_KeyboardSettingsManager : MonoBehaviour
 {
     [Header("UI Elements")]
+    [SerializeField] private bool useImage; // Determines whether to display the selected KeyCode as an image or text.
     [SerializeField] private Button selectButton; // Button to initiate the selection of a new KeyCode.
     [SerializeField] private TMP_Text selectedButtonText; // Text element displaying the currently selected KeyCode.
+    [SerializeField] private Image selectImage; // Image element used to display the currently selected KeyCode as an icon (if useImage is true).
     [SerializeField] private Button resetButton; // Button to reset the KeyCode to its default value.
     [Space(5)]
     [Header("Default Settings")]
@@ -48,7 +54,15 @@ public class TMP_KeyboardSettingsManager : MonoBehaviour
         }
 
         isListening = true; // Begin listening for a new KeyCode.
-        selectedButtonText.text = $"> {previousKeyCode} <"; // Update the UI to indicate the current key selection process.
+
+        if (!useImage)
+        {
+            selectedButtonText.text = $"> {previousKeyCode} <"; // Update the UI to indicate the current key selection process.
+        }
+        else
+        {
+            selectImage.sprite = KeyboardTagHelper.GetKeySprite(previousKeyCode); // Update image to reflect previous KeyCode.
+        }
     }
 
     private void OnResetButtonClick()
@@ -61,7 +75,7 @@ public class TMP_KeyboardSettingsManager : MonoBehaviour
     private void Start()
     {
         // Initialize the list of other KeyboardSettingsManager instances in the scene.
-        otherManagers = new List<TMP_KeyboardSettingsManager>(FindObjectsOfType<TMP_KeyboardSettingsManager>());
+        otherManagers = new List<TMP_KeyboardSettingsManager>(FindObjectsByType<TMP_KeyboardSettingsManager>(FindObjectsSortMode.None));
 
         // Ensure that the button click listeners are set up correctly.
         selectButton.onClick.RemoveListener(OnSelectButtonClick); // Remove any existing listeners to avoid duplicates.
@@ -88,6 +102,14 @@ public class TMP_KeyboardSettingsManager : MonoBehaviour
         currentKeyCode = inputData.keyboard; // Set the current KeyCode to the value stored in InputData.
         previousKeyCode = currentKeyCode; // Synchronize the previous KeyCode with the current KeyCode.
         selectedButtonText.text = previousKeyCode.ToString(); // Update the UI text to reflect the selected KeyCode.
+        if (!useImage)
+        {
+            selectedButtonText.text = previousKeyCode.ToString(); // Update the UI text to reflect the selected KeyCode.
+        }
+        else
+        {
+            selectImage.sprite = KeyboardTagHelper.GetKeySprite(previousKeyCode); // Set the image for the current KeyCode.
+        }
     }
 
     private void SetDefaultSettings()
@@ -96,6 +118,14 @@ public class TMP_KeyboardSettingsManager : MonoBehaviour
         currentKeyCode = defaultKeyCode; // Set the current KeyCode to the default value.
         previousKeyCode = defaultKeyCode; // Synchronize the previous KeyCode with the default KeyCode.
         selectedButtonText.text = previousKeyCode.ToString(); // Update the UI text to display the default KeyCode.
+        if (!useImage)
+        {
+            selectedButtonText.text = previousKeyCode.ToString(); // Display the default KeyCode text.
+        }
+        else
+        {
+            selectImage.sprite = KeyboardTagHelper.GetKeySprite(previousKeyCode); // Display the default KeyCode image.
+        }
     }
 
     private void Update()
@@ -119,6 +149,10 @@ public class TMP_KeyboardSettingsManager : MonoBehaviour
                 isDelaying = false; // End the delay and allow input to be detected.
             }
         }
+
+        // Set UI element visibility based on whether we use image for display.
+        selectedButtonText.gameObject.SetActive(!useImage); // Show the text UI element if not using an image.
+        selectImage.gameObject.SetActive(useImage); // Show the image UI element if using image.
     }
 
     private void ListenForNewInput()
@@ -134,7 +168,16 @@ public class TMP_KeyboardSettingsManager : MonoBehaviour
                     // Apply the new KeyCode, update the UI, and save the new settings.
                     currentKeyCode = keyCode; // Set the current KeyCode to the newly detected key.
                     previousKeyCode = keyCode; // Update the previous KeyCode to match the new selection.
-                    selectedButtonText.text = keyCode.ToString(); // Update the UI text with the new KeyCode.
+
+                    if (!useImage)
+                    {
+                        selectedButtonText.text = keyCode.ToString(); // Update the UI text with the new KeyCode.
+                    }
+                    else
+                    {
+                        selectImage.sprite = KeyboardTagHelper.GetKeySprite(previousKeyCode); // Update the image for the new KeyCode.
+                    }
+
                     isListening = false; // Stop listening for further inputs.
                     SaveSettings(); // Save the updated KeyCode settings.
                 }

@@ -5,6 +5,7 @@
  * Pseudonym: AGAMENOM
  * ---------------------------------------------------------------------------
 */
+
 using UnityEngine;
 
 /*[CreateAssetMenu(fileName = "InputData", menuName = "ScriptableObjects/InputData", order = 1)]*/

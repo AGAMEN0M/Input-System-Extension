@@ -1,11 +1,15 @@
 /*
  * ---------------------------------------------------------------------------
  * Description: Manages and provides access to keyboard control configurations 
- *              through a ScriptableObject containing a list of InputData objects.
- * Author: Lucas Gomes Cecchini
- * Pseudonym: AGAMENOM
+ *              through a ScriptableObject that holds a list of InputData objects. 
+ *              This class allows for the customization of keyboard inputs and 
+ *              associated sprite representations for key codes. It also provides 
+ *              an interface to modify and access these configurations in the Unity Editor.
+ * Author: Lucas Gomes Cecchini.
+ * Pseudonym: AGAMENOM.
  * ---------------------------------------------------------------------------
 */
+
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -21,6 +25,8 @@ using UnityEditor;
 public class KeyboardControlData : ScriptableObject
 {
     public List<InputData> inputDataList; // List of InputData objects, each representing a keyboard input configuration.
+    public Sprite defaultSprite; // Default sprite used for the keyboard configuration.
+    public List<InputSpriteList> keyCodesSprites; // List of sprites associated with specific key codes.
 }
 
 #if UNITY_EDITOR

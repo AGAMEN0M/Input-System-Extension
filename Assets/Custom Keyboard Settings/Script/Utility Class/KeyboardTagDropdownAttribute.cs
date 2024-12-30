@@ -9,6 +9,7 @@
  * Pseudonym: AGAMENOM
  * ---------------------------------------------------------------------------
 */
+
 using UnityEngine;
 
 #if UNITY_EDITOR
