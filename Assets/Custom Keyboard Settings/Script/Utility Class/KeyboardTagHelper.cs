@@ -16,7 +16,10 @@ namespace CustomKeyboard
     // Helper class for managing keyboard control data.
     public static class KeyboardTagHelper
     {
-        // Retrieve the KeyboardControlData resource from the Resources folder.
+        /// <summary>
+        /// Retrieves the KeyboardControlData resource from the Resources folder.
+        /// </summary>
+        /// <returns>The loaded KeyboardControlData instance or null if not found.</returns>
         public static KeyboardControlData GetKeyboardControlData()
         {
             KeyboardControlData keyboardControlData = Resources.Load<KeyboardControlData>("Keyboard Control Data");
@@ -30,7 +33,11 @@ namespace CustomKeyboard
             return keyboardControlData;
         }
 
-        // Retrieve the InputData associated with a specific keyboardTag.
+        /// <summary>
+        /// Retrieves the InputData associated with a specific keyboardTag.
+        /// </summary>
+        /// <param name="tag">The keyboard tag to search for.</param>
+        /// <returns>The matching InputData or null if not found.</returns>
         public static InputData GetInputFromTag(string tag)
         {
             KeyboardControlData keyboardControlData = GetKeyboardControlData();
@@ -52,7 +59,11 @@ namespace CustomKeyboard
             return null; // Return null if no matching InputData is found.
         }
 
-        // Update the KeyCode for the specified InputData.
+        /// <summary>
+        /// Updates the KeyCode for the specified InputData.
+        /// </summary>
+        /// <param name="inputData">The InputData to update.</param>
+        /// <param name="newKeyCode">The new KeyCode to assign.</param>
         public static void SetKey(InputData inputData, KeyCode newKeyCode)
         {
             if (inputData == null)
@@ -64,7 +75,11 @@ namespace CustomKeyboard
             inputData.keyboard = newKeyCode;
         }
 
-        // Update the KeyCode for InputData associated with the specified tag.
+        /// <summary>
+        /// Updates the KeyCode for the InputData associated with the specified tag.
+        /// </summary>
+        /// <param name="tag">The keyboard tag of the InputData to update.</param>
+        /// <param name="newKeyCode">The new KeyCode to assign.</param>
         public static void SetKeyFromTag(string tag, KeyCode newKeyCode)
         {
             InputData inputData = GetInputFromTag(tag);
@@ -77,6 +92,11 @@ namespace CustomKeyboard
             inputData.keyboard = newKeyCode;
         }
 
+        /// <summary>
+        /// Retrieves the sprite associated with a given KeyCode.
+        /// </summary>
+        /// <param name="keyCode">The KeyCode to look up.</param>
+        /// <returns>The corresponding sprite, or the default sprite if not found.</returns>
         public static Sprite GetKeySprite(KeyCode keyCode)
         {
             KeyboardControlData keyboardControlData = GetKeyboardControlData();
@@ -99,7 +119,9 @@ namespace CustomKeyboard
             return keyboardControlData.defaultSprite;
         }
 
-        // Save the current keyboard control data to PlayerPrefs.
+        /// <summary>
+        /// Saves the current keyboard control data to PlayerPrefs.
+        /// </summary>
         public static void SaveKeyboardControlData()
         {
             KeyboardControlData keyboardControlData = GetKeyboardControlData();
@@ -130,7 +152,9 @@ namespace CustomKeyboard
             PlayerPrefs.SetString("Keyboard Control Data", jsonData);
         }
 
-        // Load keyboard control data from PlayerPrefs at runtime.
+        /// <summary>
+        /// Loads keyboard control data from PlayerPrefs at runtime and updates the current configuration.
+        /// </summary>
         [RuntimeInitializeOnLoadMethod]
         public static void LoadKeyboardControlData()
         {
@@ -168,14 +192,18 @@ namespace CustomKeyboard
         }
     }
 
-    // Serializable class for storing saved keyboard control data.
+    /// <summary>
+    /// Serializable class for storing saved keyboard control data.
+    /// </summary>
     [System.Serializable]
     public class KeyboardControlDataSave
     {
         public List<InputDataListSave> inputDataListSaves; // List of saved InputData objects.
     }
 
-    // Serializable class for storing individual InputData for saving.
+    /// <summary>
+    /// Serializable class for storing individual InputData for saving.
+    /// </summary>
     [System.Serializable]
     public class InputDataListSave
     {
@@ -183,6 +211,9 @@ namespace CustomKeyboard
         public KeyCode keyboard; // KeyCode for the keyboard input.
     }
 
+    /// <summary>
+    /// Represents a visual sprite mapping for a specific keyboard key.
+    /// </summary>
     [System.Serializable]
     public class InputSpriteList
     {

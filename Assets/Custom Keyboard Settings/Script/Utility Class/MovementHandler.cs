@@ -33,7 +33,13 @@ namespace CustomKeyboard
         private InputData leftInput;
     #pragma warning restore IDE0044
 
-        // Constructor to initialize input data for all four movement directions.
+        /// <summary>
+        /// Initializes a new instance of the MovementHandler class with directional input mappings.
+        /// </summary>
+        /// <param name="forward">InputData for moving forward.</param>
+        /// <param name="back">InputData for moving backward.</param>
+        /// <param name="right">InputData for moving right.</param>
+        /// <param name="left">InputData for moving left.</param>
         public MovementHandler(InputData forward, InputData back, InputData right, InputData left)
         {
             forwardInput = forward;
@@ -42,7 +48,10 @@ namespace CustomKeyboard
             leftInput = left;
         }
 
-        // Returns the player's movement direction as a normalized vector based on input.
+        /// <summary>
+        /// Calculates and returns the current movement direction as a normalized Vector3 based on input.
+        /// </summary>
+        /// <returns>Normalized movement direction vector.</returns>
         public Vector3 GetMovementInput()
         {
             Vector3 inputDirection = Vector3.zero; // Initialize to zero vector.

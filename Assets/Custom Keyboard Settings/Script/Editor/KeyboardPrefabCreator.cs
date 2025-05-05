@@ -89,7 +89,11 @@ public static class KeyboardPrefabCreator
         return canvasObject; // Return the created Canvas.
     }
 
-    // Finds and returns a prefab by its name.
+    /// <summary>
+    /// Finds and returns a prefab by its name from the project assets.
+    /// </summary>
+    /// <param name="prefabName">The name of the prefab to search for.</param>
+    /// <returns>The prefab GameObject if found; otherwise, null.</returns>
     public static GameObject FindPrefabByName(string prefabName)
     {
         string[] guids = AssetDatabase.FindAssets($"{prefabName} t:Prefab");

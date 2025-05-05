@@ -11,10 +11,10 @@
 */
 
 using System.Collections.Generic;
+using CustomKeyboard;
 using UnityEngine;
 
 #if UNITY_EDITOR
-using CustomKeyboard;
 using System.Linq;
 using UnityEditor;
 #endif

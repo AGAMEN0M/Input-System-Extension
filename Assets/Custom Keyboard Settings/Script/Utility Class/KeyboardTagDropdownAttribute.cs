@@ -27,6 +27,13 @@ public class KeyboardTagDropdownAttribute : PropertyAttribute
 [CustomPropertyDrawer(typeof(KeyboardTagDropdownAttribute))]
 public class KeyboardTagDropdownDrawer : PropertyDrawer
 {
+    /// <summary>
+    /// Draws the property field in the Inspector with a dropdown populated by keyboard tags.
+    /// Displays a warning if the current string value does not match any available tag.
+    /// </summary>
+    /// <param name="position">The position in the Inspector to draw the property.</param>
+    /// <param name="property">The serialized property being drawn.</param>
+    /// <param name="label">The label of the property field.</param>
     public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
     {
         // Make sure the property is of type string.
@@ -76,7 +83,12 @@ public class KeyboardTagDropdownDrawer : PropertyDrawer
         }
     }
 
-    // Specifies the additional height required to display the warning.
+    /// <summary>
+    /// Calculates the required height for the property field, including space for a warning if needed.
+    /// </summary>
+    /// <param name="property">The serialized property.</param>
+    /// <param name="label">The label of the property field.</param>
+    /// <returns>The height needed to draw the property and any additional UI.</returns>
     public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
     {
         // If the string value does not match any tag, add space to the warning.
