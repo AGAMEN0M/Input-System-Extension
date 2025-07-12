@@ -1,0 +1,17 @@
+fileFormatVersion: 2
+guid: 80dddd7721cd5654ba8b1fe651dd9580
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - defaultInputActions: {fileID: -944628639613478452, guid: e708ba57082a4eb4f8f2ae2be07fb799, type: 3}
+  - action: {fileID: -1946564365313720924, guid: ce1cbda2a91c93444ace4e9434b16b61, type: 3}
+  - actionLabel: {instanceID: 0}
+  - bindingText: {instanceID: 0}
+  - rebindOverlay: {instanceID: 0}
+  - rebindText: {instanceID: 0}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

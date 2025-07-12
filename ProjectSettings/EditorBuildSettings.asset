@@ -6,9 +6,9 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Custom Keyboard Settings/Scenes/Test Scene.unity
+    path: Assets/Input System Extension/Scenes/Test Scene.unity
     guid: 9fc0d4010bbf28b4594072e72b8655ab
   m_configObjects:
     com.unity.input.settings: {fileID: 11400000, guid: 79a9e79f5411af2488a8387f7a18d4af, type: 2}
-    com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 3c18d3dfa01b3bb45b79269aec897b30, type: 3}
+    com.unity.input.settings.actions: {fileID: -944628639613478452, guid: ce1cbda2a91c93444ace4e9434b16b61, type: 3}
   m_UseUCBPForAssetBundles: 0
