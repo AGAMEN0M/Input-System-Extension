@@ -25,10 +25,7 @@ namespace InputSystemExtension
             // If the asset already exists, ask the user if they want to overwrite it.
             if (AssetDatabase.LoadAssetAtPath<InputSystemExtensionData>(assetPath) != null)
             {
-                if (!EditorUtility.DisplayDialog(
-                    "Replace File",
-                    "There is already an 'Input System Extension Data' asset. Do you want to replace it?",
-                    "Yes", "No"))
+                if (!EditorUtility.DisplayDialog("Replace File", "There is already an 'Input System Extension Data' asset. Do you want to replace it?", "Yes", "No"))
                 {
                     return;
                 }

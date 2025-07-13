@@ -3,20 +3,24 @@ using UnityEngine.UI;
 using UnityEngine;
 
 /// <summary>
-/// Resets all rebindable controls (RebindControlManager and RebindControlManagerTMP) to their default bindings when triggered.
+/// Resets all rebindable controls (RebindControlManager and RebindControlManagerTMP)
+/// to their default bindings when the assigned button is clicked.
 /// </summary>
-[AddComponentMenu("UI/Input System Extension/Reset All Rebind Control", 3)]
+[AddComponentMenu("UI/Input System Extension/Reset All Rebind Control", 5)]
 public class ResetAllRebindControl : MonoBehaviour
 {
     [Header("UI Button")]
-    [SerializeField] private Button resetAllButton; // Button that triggers the reset for all bindings.
+    [SerializeField] private Button resetAllButton; // Button that triggers the reset of all rebind controls when clicked.
 
-    private List<RebindControlManager> rebindControls; // List of all RebindControlManager instances in the scene.
-    private List<RebindControlManagerTMP> rebindControlsTMP; // List of all RebindControlManagerTMP instances in the scene.
+    [Space(10)]
+    [SerializeField] private GameObject rebindControlGroup; // Parent GameObject containing all rebind control components.
+
+    private List<RebindControlManager> rebindControls; // List of RebindControlManager components found in the specified group.
+    private List<RebindControlManagerTMP> rebindControlsTMP; // List of RebindControlManagerTMP components found in the specified group.
 
     private void Start()
     {
-        // Register the button click event to trigger the reset method.
+        // Assign the ResetAll method to the button's onClick event, if the button is assigned.
         if (resetAllButton != null)
         {
             resetAllButton.onClick.AddListener(ResetAll);
@@ -26,17 +30,17 @@ public class ResetAllRebindControl : MonoBehaviour
             Debug.LogWarning("ResetAllButton is not assigned.", this);
         }
 
-        // Find all instances of both manager types in the scene and store them.
-        rebindControls = new List<RebindControlManager>(FindObjectsByType<RebindControlManager>(FindObjectsSortMode.None));
-        rebindControlsTMP = new List<RebindControlManagerTMP>(FindObjectsByType<RebindControlManagerTMP>(FindObjectsSortMode.None));
+        // Retrieve all RebindControlManager and RebindControlManagerTMP components within the specified group.
+        rebindControls = new List<RebindControlManager>(rebindControlGroup.GetComponentsInChildren<RebindControlManager>());
+        rebindControlsTMP = new List<RebindControlManagerTMP>(rebindControlGroup.GetComponentsInChildren<RebindControlManagerTMP>());
     }
 
     /// <summary>
-    /// Resets all registered bindings (regular and TMP-based) to their default configuration.
+    /// Resets all detected rebind controls (standard and TMP-based) to their default input bindings.
     /// </summary>
     private void ResetAll()
     {
-        // Reset each non-TMP rebind control manager.
+        // Iterate through each standard rebind control and reset it to default bindings.
         foreach (var manager in rebindControls)
         {
             if (manager != null)
@@ -45,7 +49,7 @@ public class ResetAllRebindControl : MonoBehaviour
             }
         }
 
-        // Reset each TMP-based rebind control manager.
+        // Iterate through each TMP-based rebind control and reset it to default bindings.
         foreach (var managerTMP in rebindControlsTMP)
         {
             if (managerTMP != null)

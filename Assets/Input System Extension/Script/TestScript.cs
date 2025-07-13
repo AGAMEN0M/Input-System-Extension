@@ -16,7 +16,7 @@ public class TestScript : MonoBehaviour
     private void Start()
     {
         // Use the actual InputAction from the InputActionReference for the new WithAction method
-        testInputEvent = OnInputSystemEvent<float>.WithAction(action.action)
+        testInputEvent = OnInputSystemEvent<float>.WithAction(action)
             .OnPressed(_ =>
             {
                 // Reset current velocity

@@ -25,18 +25,20 @@ public class RebindControlManagerTMP : MonoBehaviour
     [Space(10)]
     [SerializeField] private Button startRebindButton; // Button that triggers the rebind operation.
     [SerializeField] private TMP_Text bindingDisplayText; // Text element showing the current binding display string.
+    [SerializeField] private Image actionBindingIcon; // UI image used to visually represent the binding's control with an icon.
     [Space(10)]
     [SerializeField] private GameObject rebindOverlayUI; // Overlay UI shown during rebinding.
     [SerializeField] private TMP_Text rebindPromptText; // Prompt text shown during rebinding.
+    [SerializeField] private Image actionRebindIcon; // UI image used to visually represent the rebind's control with an icon.
     [Space(10)]
     [SerializeField] private Button resetButton; // Button to reset the binding to default.
 
     [Header("Events")]
-    [SerializeField] private InteractiveRebindEventTMP onRebindStart; // Event fired when a rebind operation starts.
+    public InteractiveRebindEventTMP onRebindStart; // Event fired when a rebind operation starts.
     [Space(5)]
-    [SerializeField] private InteractiveRebindEventTMP onRebindStop; // Event fired when a rebind operation stops (completed or canceled).
+    public InteractiveRebindEventTMP onRebindStop; // Event fired when a rebind operation stops (completed or canceled).
     [Space(5)]
-    [SerializeField] private UpdateBindingUIEventTMP onUpdateBindingUI; // Event triggered when UI should refresh.
+    public UpdateBindingUIEventTMP onUpdateBindingUI; // Event triggered when UI should refresh.
 
     #endregion
 
@@ -44,6 +46,7 @@ public class RebindControlManagerTMP : MonoBehaviour
 
     private InputActionRebindingExtensions.RebindingOperation currentRebind; // Reference to the ongoing rebind operation.
     private static List<RebindControlManagerTMP> allRebindManagers; // Static list of all active rebind managers for centralized updates.
+    private EventSystem currentEventSystem; // Cached reference to the active EventSystem to avoid null when EventSystem.current is unavailable.
 
     #endregion
 
@@ -78,6 +81,40 @@ public class RebindControlManagerTMP : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Gets or sets the binding display text component.
+    /// Triggers a UI refresh when changed.
+    /// </summary>
+    public TMP_Text BindingDisplayText
+    {
+        get => bindingDisplayText;
+        set
+        {
+            bindingDisplayText = value;
+            RefreshBindingDisplay();
+        }
+    }
+
+    /// <summary>
+    /// Gets the icon image component used to display the binding's action icon.
+    /// </summary>
+    public Image ActionBindingIcon => actionBindingIcon;
+
+    /// <summary>
+    /// Gets or sets the rebind prompt text component.
+    /// Triggers UI refresh or update when set.
+    /// </summary>
+    public TMP_Text RebindPromptText
+    {
+        get => rebindPromptText;
+        set => rebindPromptText = value;
+    }
+
+    /// <summary>
+    /// Gets the icon image component used to display the rebind's action icon.
+    /// </summary>
+    public Image ActionRebindIcon => actionRebindIcon;
+
     #endregion
 
     #region === Unity Callbacks ===
@@ -90,8 +127,10 @@ public class RebindControlManagerTMP : MonoBehaviour
         if (!actionLabel) Debug.LogWarning("Missing UI element: Action Label is not assigned.", this);
         if (!startRebindButton) Debug.LogWarning("Missing UI element: Start Rebind Button is not assigned.", this);
         if (!bindingDisplayText) Debug.LogWarning("Missing UI element: Binding Display Text is not assigned.", this);
+        if (!actionBindingIcon) Debug.LogWarning("Missing UI element: Binding Display Image Icon is not assigned.", this);
         if (!rebindOverlayUI) Debug.LogWarning("Missing UI element: Rebind Overlay UI GameObject is not assigned.", this);
         if (!rebindPromptText) Debug.LogWarning("Missing UI element: Rebind Prompt Text is not assigned.", this);
+        if (!actionRebindIcon) Debug.LogWarning("Missing UI element: Rebind Display Image Icon is not assigned.", this);
         if (!resetButton) Debug.LogWarning("Missing UI element: Reset Button is not assigned.", this);
     }
 
@@ -103,6 +142,9 @@ public class RebindControlManagerTMP : MonoBehaviour
         // Register the rebind and reset button click events.
         startRebindButton.onClick.AddListener(StartInteractiveRebind);
         resetButton.onClick.AddListener(ResetToDefault);
+
+        // Cache the current EventSystem in a variable.
+        currentEventSystem = EventSystem.current;
     }
 
     private void OnEnable()
@@ -184,11 +226,11 @@ public class RebindControlManagerTMP : MonoBehaviour
     /// <summary>
     /// Updates the UI text and reset button status based on the current binding state.
     /// </summary>
-    private void RefreshBindingDisplay()
+    public void RefreshBindingDisplay()
     {
         string bindingDisplay = string.Empty;
-        string layoutName = default;
-        string controlPath = default;
+        string layoutName = null;
+        string controlPath = null;
 
         var action = inputActionReference != null ? inputActionReference.action : null;
         bool isModified = false;
@@ -200,7 +242,7 @@ public class RebindControlManagerTMP : MonoBehaviour
             if (rootIndex != -1)
             {
                 // Get the display string for the binding.
-                bindingDisplay = action.GetBindingDisplayString(rootIndex);
+                bindingDisplay = action.GetBindingDisplayString(rootIndex, out layoutName, out controlPath, displayOptions);
                 var rootBinding = action.bindings[rootIndex];
 
                 // Check if the binding or its composite parts are modified.
@@ -312,6 +354,12 @@ public class RebindControlManagerTMP : MonoBehaviour
 
             action.actionMap.Enable(); // Re-enable the action map to resume normal gameplay input.
 
+            // Re-enable the EventSystem after rebind ends or is canceled.
+            if (currentEventSystem != null)
+            {
+                currentEventSystem.gameObject.SetActive(true);
+            }
+
             // Unsubscribe from the cancel action and disable it.
             if (cancelRebindActionReference != null && cancelRebindActionReference.action != null)
             {
@@ -321,6 +369,12 @@ public class RebindControlManagerTMP : MonoBehaviour
         }
 
         action.actionMap.Disable(); // Disable the action map to prevent other inputs during rebinding.
+
+        // Disable the EventSystem to block UI interaction during rebind.
+        if (currentEventSystem != null)
+        {
+            currentEventSystem.gameObject.SetActive(false);
+        }
 
         // Begin the rebind operation for the specified binding index.
         currentRebind = action.PerformInteractiveRebinding(bindingIndex)
@@ -353,9 +407,10 @@ public class RebindControlManagerTMP : MonoBehaviour
                 InputBindingSaver.SaveDefaultBindings();
 
                 // Return focus to the rebind button for controller navigation.
-                if (startRebindButton != null)
+                if (startRebindButton != null && currentEventSystem != null)
                 {
-                    EventSystem.current.SetSelectedGameObject(startRebindButton.gameObject);
+                    currentEventSystem.gameObject.SetActive(true);
+                    currentEventSystem.SetSelectedGameObject(startRebindButton.gameObject);
                 }
 
                 // If this is part of a composite, continue rebinding next part.
