@@ -1,3 +1,13 @@
+/*
+ * ---------------------------------------------------------------------------
+ * Description: Handles replacement of text-based input binding display with corresponding gamepad icons.
+ *              Listens to RebindControlManagerTMP updates and swaps icon or text depending on the control bound.
+ * 
+ * Author: Lucas Gomes Cecchini
+ * Pseudonym: AGAMENOM
+ * ---------------------------------------------------------------------------
+*/
+
 using InputSystemExtension;
 using UnityEngine;
 

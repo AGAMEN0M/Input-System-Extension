@@ -1,4 +1,14 @@
-﻿using System.Collections.Generic;
+﻿/*
+ * ---------------------------------------------------------------------------
+ * Description: A generic static dispatcher that listens to any InputAction<T> value (e.g., float, Vector2, bool)
+ *              and invokes delegates for pressed, hold, and released states dynamically per action.
+ * 
+ * Author: Lucas Gomes Cecchini
+ * Pseudonym: AGAMENOM
+ * ---------------------------------------------------------------------------
+*/
+
+using System.Collections.Generic;
 using UnityEngine.InputSystem;
 using UnityEngine;
 using System;

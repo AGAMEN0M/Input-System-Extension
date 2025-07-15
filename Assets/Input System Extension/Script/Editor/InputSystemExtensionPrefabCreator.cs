@@ -1,3 +1,14 @@
+/*
+ * ---------------------------------------------------------------------------
+ * Description: Editor utility for instantiating Input System Extension UI 
+ *              prefabs via the GameObject menu. Automatically handles canvas 
+ *              creation, parenting, and prefab setup in the scene.
+ * 
+ * Author: Lucas Gomes Cecchini
+ * Pseudonym: AGAMENOM
+ * ---------------------------------------------------------------------------
+*/
+
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using UnityEditor;
@@ -174,6 +185,15 @@ namespace InputSystemExtension
         public static void CreateButtonResetAllTMPPrefab()
         {
             CreateAndConfigurePrefab("Button (Reset All) [TMP]", Selection.activeGameObject, true);
+        }
+
+        /// <summary>
+        /// Adds a menu option to instantiate the "Input Display Manager" UI prefab.
+        /// </summary>
+        [MenuItem("GameObject/UI/Input System Extension/Input Display Manager", false, 5)]
+        public static void CreateInputDisplayManagerPrefab()
+        {
+            CreateAndConfigurePrefab("Input Display Manager", Selection.activeGameObject, true);
         }
 
         #endregion

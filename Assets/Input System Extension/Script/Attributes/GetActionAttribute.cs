@@ -1,3 +1,15 @@
+/*
+ * ---------------------------------------------------------------------------
+ * Description: Custom attribute and drawer for selecting an InputAction from 
+ *              a default InputActionAsset in the inspector using [GetAction].
+ * 
+ * Using: [GetAction]
+ * 
+ * Author: Lucas Gomes Cecchini
+ * Pseudonym: AGAMENOM
+ * ---------------------------------------------------------------------------
+*/
+
 using UnityEngine;
 
 #if UNITY_EDITOR

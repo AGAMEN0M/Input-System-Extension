@@ -1,3 +1,14 @@
+/*
+ * ---------------------------------------------------------------------------
+ * Description: UI utility component that resets all RebindControlManager and 
+ *              RebindControlManagerTMP components under a target group to 
+ *              their default input bindings when a button is clicked.
+ * 
+ * Author: Lucas Gomes Cecchini
+ * Pseudonym: AGAMENOM
+ * ---------------------------------------------------------------------------
+*/
+
 using System.Collections.Generic;
 using UnityEngine.UI;
 using UnityEngine;

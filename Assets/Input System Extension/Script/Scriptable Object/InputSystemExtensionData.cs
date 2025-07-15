@@ -1,3 +1,15 @@
+/*
+ * ---------------------------------------------------------------------------
+ * Description: ScriptableObject configuration for Input System Extension. 
+ *              Stores binding settings, gamepad icons, and provides editor 
+ *              access via menu for centralized input management.
+ * 
+ * Author: Lucas Gomes Cecchini
+ * Pseudonym: AGAMENOM
+ * ---------------------------------------------------------------------------
+*/
+
+using System.Collections.Generic;
 using UnityEngine.InputSystem;
 using UnityEngine;
 using System;
@@ -10,34 +22,56 @@ using UnityEditor;
 namespace InputSystemExtension
 {
     /// <summary>
-    /// Stores input system configuration data used for saving and loading custom bindings,
-    /// as well as gamepad icon mappings for visual input display.
+    /// Stores configuration data for the input system, including custom binding persistence
+    /// and gamepad icon mappings for visual representation in the UI.
     /// </summary>
     public class InputSystemExtensionData : ScriptableObject
     {
         [Header("Input Settings")]
 
         /// <summary>
-        /// Reference to the main InputActionAsset that will have its bindings saved/loaded.
+        /// Reference to the primary InputActionAsset whose bindings will be saved and loaded.
         /// </summary>
         public InputActionAsset defaultInputAction;
 
         /// <summary>
-        /// PlayerPrefs key used to store the binding overrides as JSON.
+        /// The PlayerPrefs key used to store binding override data in JSON format.
         /// </summary>
         public string playerPrefsKey = "BindingsData";
 
         [Header("Icons Settings")]
 
         /// <summary>
-        /// Set of button icons used for Xbox-style gamepads.
+        /// Default sprite used when displaying keyboard input visuals.
+        /// </summary>
+        public Sprite defaultSprite;
+
+        [Space(10)]
+
+        /// <summary>
+        /// List of sprites mapped to specific keyboard keys for visual display.
+        /// </summary>
+        public List<InputSpriteList> KeyCodes;
+
+        /// <summary>
+        /// Sprite set for Xbox-style gamepads, used to visually represent controller buttons.
         /// </summary>
         public GamepadIcons xbox;
 
         /// <summary>
-        /// Set of button icons used for PS4-style (DualShock) gamepads.
+        /// Sprite set for PS4 (DualShock)-style gamepads, used to visually represent controller buttons.
         /// </summary>
         public GamepadIcons ps4;
+
+        /// <summary>
+        /// Represents a sprite mapping for a specific keyboard key.
+        /// </summary>
+        [Serializable]
+        public struct InputSpriteList
+        {
+            public KeyCode keyCode; // The KeyCode associated with this sprite. 
+            public Sprite sprite; // The Sprite that represents the key visually.
+        }
 
         /// <summary>
         /// Struct representing a collection of sprites that map to common gamepad control paths.

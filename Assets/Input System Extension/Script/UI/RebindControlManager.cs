@@ -1,3 +1,14 @@
+/*
+ * ---------------------------------------------------------------------------
+ * Description: Component that manages interactive input rebinding using 
+ *              UI elements. Supports real-time updates, composite bindings, 
+ *              icon representation, duplicate prevention, and cancel input handling.
+ * 
+ * Author: Lucas Gomes Cecchini
+ * Pseudonym: AGAMENOM
+ * ---------------------------------------------------------------------------
+*/
+
 using System.Collections.Generic;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;

@@ -1,3 +1,12 @@
+/*
+ * ---------------------------------------------------------------------------
+ * Description: Provides access to the InputSystemExtensionData ScriptableObject loaded from the Resources folder.
+ * 
+ * Author: Lucas Gomes Cecchini
+ * Pseudonym: AGAMENOM
+ * ---------------------------------------------------------------------------
+*/
+
 using UnityEngine;
 
 namespace InputSystemExtension

@@ -1,21 +1,23 @@
-# Custom-Keyboard-Settings
-A system that allows you to configure Keyboards easily using Scriptable Objects.
+# Input-System-Extension
 
-# Download
+An intuitive system to easily configure and manage keyboard inputs using Scriptable Objects in Unity.
 
-[Custom Keyboard Settings - Package v0.0.7](https://drive.google.com/file/d/1f1ofuh_TH0M3g_RGmtPRwG10T-sQoBGi/view?usp=drive_link)
- / 
-[Documentation](https://drive.google.com/file/d/1cVwauTlbvOjc8CHOQGf93l4pvR1lmPmq/view?usp=drive_link)
+## Download
 
-# Description
+[Input System Extension - Package v0.0.1](https://drive.google.com/file/d/1IXIawTOL3ezne7OA4ihCENJjszm82JpY/view?usp=drive_link)
+/
+[Documentation](https://drive.google.com/file/d/1_bD-kZMXVv6yXhOPbyjqCeg-AHLCWh2T/view?usp=drive_link)
 
-This tool is compatible with TextMeshPro. 
+## Description
 
-You can find more information on how to use it on the YouTube Playlist: [Click Here.](https://www.youtube.com/playlist?list=PL5hnfx09yM4Kqkhx0KHyUW0kWviPMTPCs)
+This tool integrates seamlessly with **TextMeshPro** to provide smooth and customizable keyboard input displays and controls.
 
-If you have suggestions for improvements and bug fixes, please share them with me so we can improve this package as much as possible.
+For detailed usage tutorials and demonstrations, check out the YouTube playlist: [Watch Here](https://www.youtube.com/playlist?list=PL5hnfx09yM4Kqkhx0KHyUW0kWviPMTPCs)
 
-# Old Versions
+Your feedback is invaluable! If you have suggestions or encounter bugs, please share them so we can continue improving this package.
+
+## Legacy Versions
+
 [Old Versions - Package](https://drive.google.com/drive/folders/1882_aAK2gTwdIFMDfoZKAeK-3r-N3Z_2?usp=drive_link)
 
-Current version in Git v0.7
+Current Git Version: v1.0

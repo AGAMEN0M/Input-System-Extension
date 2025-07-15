@@ -1,3 +1,12 @@
+/*
+ * ---------------------------------------------------------------------------
+ * Description: Handles saving and loading input binding overrides using Unity's PlayerPrefs system.
+ * 
+ * Author: Lucas Gomes Cecchini
+ * Pseudonym: AGAMENOM
+ * ---------------------------------------------------------------------------
+*/
+
 using UnityEngine.InputSystem;
 using UnityEngine;
 

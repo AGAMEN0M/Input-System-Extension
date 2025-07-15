@@ -1,3 +1,14 @@
+/*
+ * ---------------------------------------------------------------------------
+ * Description: Automatically creates the InputSystemExtensionData asset at 
+ *              editor startup or via menu, ensuring required configuration 
+ *              for input system extension is always available.
+ *              
+ * Author: Lucas Gomes Cecchini
+ * Pseudonym: AGAMENOM
+ * ---------------------------------------------------------------------------
+*/
+
 using UnityEditor;
 using UnityEngine;
 using System.IO;

@@ -1,3 +1,16 @@
+/*
+ * ---------------------------------------------------------------------------
+ * Description: Custom attribute and property drawer for selecting InputAction 
+ *              bindings in the Unity Inspector. Displays a dropdown list of 
+ *              available bindings from a referenced InputAction.
+ *              
+ * Using: [BindingId(nameof(inputActionReference))]
+ *              
+ * Author: Lucas Gomes Cecchini
+ * Pseudonym: AGAMENOM
+ * ---------------------------------------------------------------------------
+*/
+
 using UnityEngine;
 using System;
 
@@ -44,8 +57,11 @@ public class BindingIdDrawer : PropertyDrawer
             return;
         }
 
-        // Find the InputActionReference field using the name specified in the attribute.
-        var actionProperty = property.serializedObject.FindProperty(bindingIdAttr.actionFieldName);
+        // Try to resolve the path to the InputActionReference in the same serialized object
+        string propertyPath = property.propertyPath;
+        string actionFieldPath = propertyPath.Replace(property.name, bindingIdAttr.actionFieldName);
+        var actionProperty = property.serializedObject.FindProperty(actionFieldPath);
+
         if (actionProperty == null)
         {
             EditorGUI.HelpBox(position, $"Action field '{bindingIdAttr.actionFieldName}' not found.", MessageType.Error);
