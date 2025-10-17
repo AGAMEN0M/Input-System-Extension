@@ -19,13 +19,20 @@ using System.Linq;
 using UnityEditor;
 #endif
 
+#region === Attribute Definition ===
+
 /// <summary>
 /// Attribute to show a dropdown in the inspector listing InputActionReference
 /// options from the default InputActionAsset configured in InputSystemExtensionData.
 /// </summary>
 public class GetActionAttribute : PropertyAttribute { }
 
+#endregion
+
 #if UNITY_EDITOR
+
+#region === Property Drawer ===
+
 /// <summary>
 /// Custom PropertyDrawer for the [GetAction] attribute.
 /// Allows selecting an InputActionReference from actions in the configured InputActionAsset.
@@ -88,6 +95,9 @@ public class GetActionDrawer : PropertyDrawer
         // Prepare the display strings for the popup: "ActionMapName/ActionName".
         string[] displayNames = actions.Select(a => $"{a.actionMap.name}/{a.name}").ToArray();
 
+        // Label with tooltip above the popup.
+        EditorGUI.LabelField(position, new GUIContent("", label.tooltip));
+
         // Draw the popup dropdown with current selection.
         int selectedIndex = EditorGUI.Popup(position, label.text, currentIndex, displayNames);
 
@@ -95,8 +105,23 @@ public class GetActionDrawer : PropertyDrawer
         if (selectedIndex != currentIndex && selectedIndex >= 0)
         {
             var selectedAction = actions[selectedIndex];
-            property.objectReferenceValue = InputActionReference.Create(selectedAction);
+
+            // Instead of creating a new reference, find an existing InputActionReference sub-asset
+            var assetPath = AssetDatabase.GetAssetPath(extensionData.defaultInputAction);
+            var references = AssetDatabase.LoadAllAssetsAtPath(assetPath).OfType<InputActionReference>().ToList();
+
+            // Try to find a reference that points to the selected action
+            var reference = references.FirstOrDefault(r => r.action == selectedAction);
+
+            property.objectReferenceValue = reference;
+
+            // Mark the object as modified to save the change.
+            property.serializedObject.ApplyModifiedProperties();
+            EditorUtility.SetDirty(property.serializedObject.targetObject);
         }
     }
 }
+
+#endregion
+
 #endif

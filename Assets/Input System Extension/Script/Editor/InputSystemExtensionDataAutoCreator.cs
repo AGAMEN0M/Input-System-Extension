@@ -15,6 +15,8 @@ using System.IO;
 
 namespace InputSystemExtension
 {
+    #region === Asset Creation Menu ===
+
     /// <summary>
     /// Responsible for creating the InputSystemExtensionData asset in the Resources folder via the Unity Editor menu.
     /// </summary>
@@ -55,6 +57,10 @@ namespace InputSystemExtension
         }
     }
 
+    #endregion
+
+    #region === Automatic Asset Creation on Editor Startup ===
+
     /// <summary>
     /// Ensures the InputSystemExtensionData asset is created automatically on Unity Editor startup, if missing.
     /// </summary>
@@ -74,4 +80,6 @@ namespace InputSystemExtension
             };
         }
     }
+
+    #endregion
 }

@@ -20,6 +20,8 @@ using UnityEngine;
 [CustomEditor(typeof(InputDisplayManager))]
 public class InputDisplayManagerInspector : Editor
 {
+    #region === Inspector GUI ===
+
     /// <summary>
     /// Overrides the default inspector GUI to add a custom button and handle automatic preset creation.
     /// </summary>
@@ -54,6 +56,10 @@ public class InputDisplayManagerInspector : Editor
         // Applies serialized field changes.
         serializedObject.ApplyModifiedProperties();
     }
+
+    #endregion
+
+    #region === Preset Creation Logic ===
 
     /// <summary>
     /// Automatically creates or updates UI icon images based on the input action references.
@@ -191,4 +197,6 @@ public class InputDisplayManagerInspector : Editor
 
         return imageComp;
     }
+
+    #endregion
 }

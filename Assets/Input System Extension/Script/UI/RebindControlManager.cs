@@ -18,37 +18,71 @@ using UnityEngine.UI;
 using UnityEngine;
 using System;
 
-[AddComponentMenu("UI/Input System Extension/Rebind Control Manager (Legacy)", 1)]
+[AddComponentMenu("UI/Input System Extension/Rebind/Rebind Control Manager (Legacy)", 1)]
 public class RebindControlManager : MonoBehaviour
 {
     #region === Serialized Fields ===
 
     [Header("Input Settings")]
-    [SerializeField, GetAction] private InputActionReference cancelRebindActionReference; // Reference to an action that cancels the rebind process.
-    [SerializeField, GetAction] private InputActionReference inputActionReference; // Reference to the action whose binding will be changed.
-    [SerializeField, BindingId(nameof(inputActionReference))] private string targetBindingId; // GUID identifying the specific binding to rebind.
-    [SerializeField] private InputBinding.DisplayStringOptions displayOptions; // Options for displaying binding strings.
+    [SerializeField, GetAction, Tooltip("Reference to an Input Action that cancels the current rebind process when performed.")]
+    private InputActionReference cancelRebindActionReference; // Action used to cancel rebinding.
+
+    [SerializeField, GetAction, Tooltip("Reference to the Input Action whose binding will be modified by this manager.")]
+    private InputActionReference inputActionReference; // Action being rebinding target.
+
+    [SerializeField, BindingId(nameof(inputActionReference)), Tooltip("Unique identifier (GUID) of the specific binding within the action that will be rebinding.")]
+    private string targetBindingId; // Binding ID to rebind.
+
+    [SerializeField, Tooltip("Options that control how the binding display string is generated (e.g., showing device layout, path, or name).")]
+    private InputBinding.DisplayStringOptions displayOptions; // Display options for binding text.
 
     [Header("UI Elements")]
-    [SerializeField] private Text actionLabel; // UI label that shows the action name.
-    [SerializeField] private bool autoLabelFromAction = true; // If true, automatically sets label text based on action name.
+    [SerializeField, Tooltip("Text UI element that shows the name of the action associated with this binding.")]
+    private Text actionLabel; // UI label displaying action name.
+
+    [SerializeField, Tooltip("If true, automatically updates the action label based on the assigned action's name.")]
+    private bool autoLabelFromAction = true; // Auto-update label from action name.
+
     [Space(10)]
-    [SerializeField] private Button startRebindButton; // Button that triggers the rebind operation.
-    [SerializeField] private Text bindingDisplayText; // Text element showing the current binding display string.
-    [SerializeField] private Image actionBindingIcon; // UI image used to visually represent the binding's control with an icon.
+
+    [SerializeField, Tooltip("Button that, when clicked, starts the interactive rebind operation.")]
+    private Button startRebindButton; // Trigger button for rebinding.
+
+    [SerializeField, Tooltip("Text UI element showing the current binding's display string.")]
+    private Text bindingDisplayText; // UI element showing binding string.
+
+    [SerializeField, Tooltip("Image UI element used to represent the current binding visually with an icon.")]
+    private Image actionBindingIcon; // Icon representing the binding's control.
+
     [Space(10)]
-    [SerializeField] private GameObject rebindOverlayUI; // Overlay UI shown during rebinding.
-    [SerializeField] private Text rebindPromptText; // Prompt text shown during rebinding.
-    [SerializeField] private Image actionRebindIcon; // UI image used to visually represent the rebind's control with an icon.
+
+    [SerializeField, Tooltip("Overlay GameObject displayed during the rebinding process to block input and show prompt.")]
+    private GameObject rebindOverlayUI; // Overlay for rebind process.
+
+    [SerializeField, Tooltip("Text UI element shown during rebinding to guide the user (e.g., '<Press a key>').")]
+    private Text rebindPromptText; // Prompt text during rebinding.
+
+    [SerializeField, Tooltip("Image UI element representing the control being pressed during the rebind process.")]
+    private Image actionRebindIcon; // Icon for the rebind input.
+
     [Space(10)]
-    [SerializeField] private Button resetButton; // Button to reset the binding to default.
+
+    [SerializeField, Tooltip("Button that resets the current binding to its default value when clicked.")]
+    private Button resetButton; // Reset binding to default.
 
     [Header("Events")]
-    public InteractiveRebindEvent onRebindStart; // Event fired when a rebind operation starts.
+    [Tooltip("Event triggered when a rebind operation starts, providing access to the manager and rebinding operation.")]
+    public InteractiveRebindEvent onRebindStart; // Event fired when rebind starts.
+
     [Space(5)]
-    public InteractiveRebindEvent onRebindStop; // Event fired when a rebind operation stops (completed or canceled).
+
+    [Tooltip("Event triggered when a rebind operation ends, either completed or canceled, providing the manager and operation.")]
+    public InteractiveRebindEvent onRebindStop; // Event fired when rebind stops.
+
     [Space(5)]
-    public UpdateBindingUIEvent onUpdateBindingUI; // Event triggered when UI should refresh.
+
+    [Tooltip("Event triggered whenever the binding UI should refresh (e.g., after rebinding or resetting).")]
+    public UpdateBindingUIEvent onUpdateBindingUI; // Event for UI refresh.
 
     #endregion
 
@@ -134,7 +168,7 @@ public class RebindControlManager : MonoBehaviour
         if (!cancelRebindActionReference) Debug.LogWarning("Missing reference: Cancel Rebind Action Reference is not assigned.", this);
         if (!inputActionReference) Debug.LogWarning("Missing reference: Input Action Reference is not assigned.", this);
         if (string.IsNullOrEmpty(targetBindingId)) Debug.LogWarning("Missing binding ID: Target Binding ID is not set.", this);
-        if (!actionLabel) Debug.LogWarning("Missing UI element: Action Label is not assigned.", this);
+        if (!actionLabel && autoLabelFromAction) Debug.LogWarning("Missing UI element: Action Label is not assigned.", this);
         if (!startRebindButton) Debug.LogWarning("Missing UI element: Start Rebind Button is not assigned.", this);
         if (!bindingDisplayText) Debug.LogWarning("Missing UI element: Binding Display Text is not assigned.", this);
         if (!actionBindingIcon) Debug.LogWarning("Missing UI element: Binding Display Image Icon is not assigned.", this);

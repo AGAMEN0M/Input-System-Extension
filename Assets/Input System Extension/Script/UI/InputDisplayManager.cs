@@ -20,7 +20,7 @@ using System;
 
 using static UnityEngine.InputSystem.InputSystem;
 
-[AddComponentMenu("UI/Input System Extension/Input Display Manager", 6)]
+[AddComponentMenu("UI/Input System Extension/Display/Input Display Manager", 1)]
 public class InputDisplayManager : MonoBehaviour
 {
     #region === Enums ===
@@ -35,56 +35,84 @@ public class InputDisplayManager : MonoBehaviour
     }
 
     #endregion
-
-    #region === Serializable Structs ===
+    
+    #region === Serializable Classes ===
 
     /// <summary>
-    /// Struct that defines data for a single input viewer.
-    /// Used to display a single input icon and handle its events.
+    /// Class that defines data for a single input viewer.
+    /// Used to display one input icon and handle its corresponding events.
     /// </summary>
     [Serializable]
-    public struct InputViewerData
+    public class InputViewerData
     {
-        public string nameTag; // Identifier for this viewer entry.
-        public bool enable; // Whether this input view is active.
+        [Tooltip("Identifier for this viewer entry.")]
+        public string nameTag; // Unique tag used to identify this specific viewer.
+
+        [Tooltip("Determines whether this input view is active.")]
+        public bool enable; // Enables or disables this viewer instance.
 
         [Space(10)]
-        [GetAction] public InputActionReference inputActionReference; // Reference to the Input Action asset.
+
+        [GetAction, Tooltip("Reference to the Input Action asset.")]
+        public InputActionReference inputActionReference; // Input action linked to this viewer.
 
         // Binding identifiers used to select the correct input icon based on control type.
-        [BindingId(nameof(inputActionReference))] public string keyboardId;
-        [BindingId(nameof(inputActionReference))] public string gamepadId;
+        [BindingId(nameof(inputActionReference)), Tooltip("Binding identifier for keyboard input.")]
+        public string keyboardId;
+
+        [BindingId(nameof(inputActionReference)), Tooltip("Binding identifier for gamepad input.")]
+        public string gamepadId;
 
         [Space(10)]
-        public Image inputIcon; // UI Image used to display the icon.
 
-        [NonSerialized] public OnInputSystemEventConfig<float> inputEvent; // Input event handler for float input types (e.g., button press).
+        [Tooltip("UI Image component used to display the input icon.")]
+        public Image inputIcon; // Image component that displays the assigned control icon.
+
+        [NonSerialized, Tooltip("Input event handler for float input types (e.g., button press).")]
+        public OnInputSystemEventConfig<float> inputEvent; // Event configuration for single-axis input (button actions).
     }
 
     /// <summary>
     /// Struct that defines data for multiple input directions (Up, Down, Left, Right).
-    /// Used to handle directional inputs like D-Pad or Arrow Keys.
+    /// Used to handle directional inputs such as D-Pad or Arrow Keys.
     /// </summary>
     [Serializable]
     public struct InputMultipleViewsData
     {
-        public string nameTag; // Identifier for this directional viewer.
-        public bool enable; // Whether this set is active.
+        [Tooltip("Identifier for this directional input viewer.")]
+        public string nameTag; // Unique tag used to identify this directional viewer.
+
+        [Tooltip("Determines whether this input view set is active.")]
+        public bool enable; // Enables or disables this directional viewer.
 
         [Space(10)]
-        [GetAction] public InputActionReference inputActionReference; // Reference to the Input Action asset.
+
+        [GetAction, Tooltip("Reference to the Input Action asset.")]
+        public InputActionReference inputActionReference; // Input action associated with this directional set.
 
         // Binding identifiers used to select the correct input icon based on control type.
-        [BindingId(nameof(inputActionReference))] public string keyboardId;
-        [BindingId(nameof(inputActionReference))] public string gamepadId;
+        [BindingId(nameof(inputActionReference)), Tooltip("Binding identifier for keyboard input.")]
+        public string keyboardId;
+
+        [BindingId(nameof(inputActionReference)), Tooltip("Binding identifier for gamepad input.")]
+        public string gamepadId;
 
         [Space(10)]
-        public Image inputIconUp;     // Icon representing the "up" input.
-        public Image inputIconDown;   // Icon representing the "down" input.
-        public Image inputIconLeft;   // Icon representing the "left" input.
-        public Image inputIconRight;  // Icon representing the "right" input.
 
-        [NonSerialized] public OnInputSystemEventConfig<Vector2> inputEvent; // Input event handler for directional input.
+        [Tooltip("Icon representing the 'Up' input direction.")]
+        public Image inputIconUp;
+
+        [Tooltip("Icon representing the 'Down' input direction.")]
+        public Image inputIconDown;
+
+        [Tooltip("Icon representing the 'Left' input direction.")]
+        public Image inputIconLeft;
+
+        [Tooltip("Icon representing the 'Right' input direction.")]
+        public Image inputIconRight;
+
+        [NonSerialized, Tooltip("Input event handler for Vector2 input types (e.g., movement stick or D-Pad).")]
+        public OnInputSystemEventConfig<Vector2> inputEvent; // Event configuration for 2D input vectors.
     }
 
     #endregion
@@ -92,19 +120,33 @@ public class InputDisplayManager : MonoBehaviour
     #region === Inspector Fields ===
 
     [Header("Auto Detection Settings")]
-    [SerializeField] private bool automatic = true; // If true, the control type (Keyboard or Gamepad) will be automatically detected at runtime.
-    [SerializeField] private ControlType controlType = ControlType.Keyboard; // Default control type used when automatic detection is disabled.
+    [SerializeField, Tooltip("If true, control type (Keyboard or Gamepad) will be automatically detected at runtime.")]
+    private bool automatic = true; // Enables automatic detection of input device type.
+
+    [SerializeField, Tooltip("Default control type when automatic detection is disabled.")]
+    private ControlType controlType = ControlType.Keyboard; // Manually selected control type.
 
     [Header("Input Visual Settings")]
-    [SerializeField] private Color activatedColor = Color.white; // The color to apply when an input is active (e.g., pressed).
-    [SerializeField] private Color disabledColor = Color.gray; // The color to apply when an input is inactive or released.
+    [SerializeField, Tooltip("Color applied when an input is active (pressed).")]
+    private Color activatedColor = Color.white; // Color used for active input visuals.
+
+    [SerializeField, Tooltip("Color applied when an input is inactive or released.")]
+    private Color disabledColor = Color.gray; // Color used for inactive input visuals.
+
     [Space(10)]
-    [SerializeField] private float transitionTime = 0.1f; // Duration of the color transition when an input changes state.
-    [SerializeField] private float hideTransitionTime = 0.5f; // Duration of the fade-out effect when disabling a viewer.
+
+    [SerializeField, Tooltip("Duration of the color transition when input state changes.")]
+    private float transitionTime = 0.1f; // Duration for fade or transition effects between input states.
+
+    [SerializeField, Tooltip("Duration of the fade-out effect when hiding a viewer.")]
+    private float hideTransitionTime = 0.5f; // Fade-out time when disabling input display elements.
 
     [Header("Input Viewer Data")]
-    [SerializeField] private List<InputViewerData> inputViewerData = new(); // List of single input data (e.g., jump button).
-    [SerializeField] private List<InputMultipleViewsData> inputMultipleViewsData = new(); // List of directional input data (e.g., movement arrows or joystick directions).
+    [SerializeField, Tooltip("List of single input viewers (e.g., jump button).")]
+    private List<InputViewerData> inputViewerData = new(); // Collection of single input data configurations.
+
+    [SerializeField, Tooltip("List of directional input viewers (e.g., movement arrows or joystick directions).")]
+    private List<InputMultipleViewsData> inputMultipleViewsData = new(); // Collection of multi-directional input data configurations.
 
     #endregion
 
@@ -176,19 +218,7 @@ public class InputDisplayManager : MonoBehaviour
     /// <summary>
     /// Called before Start(). Validates the input data to ensure all fields are properly assigned.
     /// </summary>
-    private void Awake()
-    {
-        ValidateData(); // Perform initial validation on serialized input lists.
-    }
-
-    /// <summary>
-    /// Called at the start of the scene. Initializes all input event bindings.
-    /// </summary>
-    private void Start()
-    {
-        InitializeInputViewerData(); // Setup event handlers for single input icons.
-        InitializeInputMultipleViewsData(); // Setup event handlers for directional inputs.
-    }
+    private void Awake() => ValidateData(); // Perform initial validation on serialized input lists.
 
     /// <summary>
     /// Called when the GameObject is enabled. Registers device change listeners and updates icons.
@@ -196,28 +226,21 @@ public class InputDisplayManager : MonoBehaviour
     private void OnEnable()
     {
         if (automatic) DetectControlType(); // Automatically determine the control type based on connected devices.
-
         onDeviceChange += OnDeviceChange; // Subscribe to device change events.
-
+        InitializeInputViewerData(); // Setup event handlers for single input icons.
+        InitializeInputMultipleViewsData(); // Setup event handlers for directional inputs.
         UpdateIcons(); // Apply appropriate sprites to icons based on current control type.
     }
 
     /// <summary>
-    /// Called when the GameObject is disabled. Unsubscribes from device change events.
+    /// Called when the GameObject is disabled. Triggers cleanup to stop coroutines and unbind events.
     /// </summary>
-    private void OnDisable()
-    {
-        onDeviceChange -= OnDeviceChange; // Stop listening for device changes.
-    }
+    private void OnDisable() => OnClean();
 
     /// <summary>
-    /// Called when the GameObject is destroyed. Ensures that all resources and coroutines are properly cleaned.
+    /// Called when the GameObject is destroyed. Ensures cleanup is performed as a final safeguard.
     /// </summary>
-    private void OnDestroy()
-    {
-        UnbindAllEvents(); // Remove all input event bindings.
-        StopAllColorTransitions(); // Stop any ongoing color animations.
-    }
+    private void OnDestroy() => OnClean();
 
     #endregion
 
@@ -309,11 +332,11 @@ public class InputDisplayManager : MonoBehaviour
             // Skip if the referenced InputAction is not assigned.
             if (data.inputActionReference.action == null) continue;
 
-            data.inputEvent?.UnbindAll(); // Unbind any existing events to avoid duplicates.
+            data.inputEvent?.Dispose(); // Unbind any existing events to avoid duplicates.
 
             // Create a new event handler for the input action.
             // It only activates if the viewer is enabled.
-            data.inputEvent = OnInputSystemEvent<float>.WithAction(data.inputActionReference.action, () => data.enable)
+            data.inputEvent = OnInputSystemEvent<float>.WithAction(data.inputActionReference.action, this, () => data.enable)
                 // When the input is pressed, start the color transition to the activated color.
                 .OnPressed(_ => StartColorTransition(data.inputIcon, activatedColor, transitionTime))
                 // When the input is released, start the color transition to the disabled color.
@@ -346,11 +369,11 @@ public class InputDisplayManager : MonoBehaviour
             // Skip if the referenced InputAction is not assigned.
             if (data.inputActionReference.action == null) continue;
 
-            data.inputEvent?.UnbindAll(); // Unbind existing events to prevent duplicates.
+            data.inputEvent?.Dispose(); // Unbind existing events to prevent duplicates.
 
             // Create new event handler for Vector2 input (e.g., joystick or D-pad).
             // Activates only if the viewer is enabled.
-            data.inputEvent = OnInputSystemEvent<Vector2>.WithAction(data.inputActionReference.action, () => data.enable)
+            data.inputEvent = OnInputSystemEvent<Vector2>.WithAction(data.inputActionReference.action, this, () => data.enable)
                 .OnPressed(_ =>
                 {
                     // On press, if control type is Gamepad, highlight the "up" icon.
@@ -482,7 +505,9 @@ public class InputDisplayManager : MonoBehaviour
 
     /// <summary>
     /// Updates the directional input icons’ sprites and their visibility based on the current control type.
-    /// Handles keyboard direction keys or gamepad buttons/sticks.
+    /// Uses the binding IDs and the GetSpriteForBinding method for accurate sprite retrieval.
+    /// For keyboard, each part of a composite (Up, Down, Left, Right) is assigned its own sprite.
+    /// For gamepad, only the primary direction ("up") is highlighted.
     /// </summary>
     private void UpdateInputMultipleViewsIcons()
     {
@@ -491,88 +516,49 @@ public class InputDisplayManager : MonoBehaviour
             var data = inputMultipleViewsData[i];
             if (data.inputActionReference.action == null) continue;
 
-            // Select the correct binding ID depending on control type.
-            string bindingId = controlType == ControlType.Keyboard ? data.keyboardId : data.gamepadId;
-            if (string.IsNullOrEmpty(bindingId)) continue;
-
             var action = data.inputActionReference.action;
-
-            // Find the binding index by matching the binding ID.
-            var bindingIndex = action.bindings.ToList().FindIndex(b => b.id.ToString() == bindingId);
-            if (bindingIndex < 0) continue;
-
-            var binding = action.bindings[bindingIndex];
-            string path = binding.effectivePath;
 
             if (controlType == ControlType.Keyboard)
             {
-                // For keyboard, find composite bindings representing each direction.
-                var directionBindings = action.bindings.Where(b => b.isPartOfComposite && b.action == action.name).ToList();
+                // Find all bindings that are part of a composite (e.g., WASD or Arrow keys).
+                var compositeBindings = action.bindings.Where(b => b.isPartOfComposite).ToList();
 
-                foreach (var b in directionBindings)
+                // Assign sprites for each directional part of the composite if available.
+                foreach (var binding in compositeBindings)
                 {
-                    // Extract key name, removing the device prefix.
-                    string key = b.effectivePath.Replace("<Keyboard>/", "").ToUpperInvariant();
-                    Sprite dirSprite = null;
-
-                    // Try to parse the key name to a KeyCode enum.
-                    if (Enum.TryParse(key, out KeyCode keyCode))
-                    {
-                        // Lookup sprite from extension data matching the KeyCode.
-                        dirSprite = extensionData.KeyCodes.Find(k => k.keyCode == keyCode).sprite;
-                    }
-
-                    // If not found by KeyCode, try fallback by name.
-                    if (dirSprite == null && !string.IsNullOrEmpty(b.name))
-                    {
-                        var fallback = extensionData.KeyCodes.FirstOrDefault(k => k.keyCode.ToString().Equals(b.name, StringComparison.OrdinalIgnoreCase));
-                        dirSprite = fallback.sprite;
-                    }
-
-                    if (dirSprite == null) dirSprite = extensionData.defaultSprite; // Use default sprite if none found.
-
-                    // Assign the sprite to the corresponding directional icon.
-                    switch (b.name.ToLowerInvariant())
+                    switch (binding.name.ToLower())
                     {
                         case "up":
-                            if (data.inputIconUp != null) data.inputIconUp.sprite = dirSprite;
+                            if (data.inputIconUp != null) data.inputIconUp.sprite = GetSpriteForBinding(action, binding.id.ToString());
                             break;
                         case "down":
-                            if (data.inputIconDown != null) data.inputIconDown.sprite = dirSprite;
+                            if (data.inputIconDown != null) data.inputIconDown.sprite = GetSpriteForBinding(action, binding.id.ToString());
                             break;
                         case "left":
-                            if (data.inputIconLeft != null) data.inputIconLeft.sprite = dirSprite;
+                            if (data.inputIconLeft != null) data.inputIconLeft.sprite = GetSpriteForBinding(action, binding.id.ToString());
                             break;
                         case "right":
-                            if (data.inputIconRight != null) data.inputIconRight.sprite = dirSprite;
+                            if (data.inputIconRight != null) data.inputIconRight.sprite = GetSpriteForBinding(action, binding.id.ToString());
+                            break;
+                        default:
+                            Debug.LogWarning($"[InputDisplayManager] Unrecognized composite part '{binding.name}' in action '{action.name}'.", this);
                             break;
                     }
                 }
 
-                SetIconsActive(data, up: true, down: true, left: true, right: true); // Set all directional icons active for keyboard.
+                // Show all directional icons for keyboard.
+                SetIconsActive(data, up: true, down: true, left: true, right: true);
             }
             else
             {
-                string cleanPath = path.Split('/').Last(); // For gamepad, get clean path name (e.g., buttonSouth).
-
-                // Detect if the current gamepad is a PS4 controller.
-                bool isPS4 = false;
-                if (Gamepad.current != null)
+                // For gamepad, assign sprite only to the "up" icon (primary direction).
+                string bindingId = data.gamepadId;
+                if (!string.IsNullOrEmpty(bindingId) && data.inputIconUp != null)
                 {
-                    string product = Gamepad.current.description.product?.ToLowerInvariant();
-                    string manufacturer = Gamepad.current.description.manufacturer?.ToLowerInvariant();
-
-                    isPS4 = product?.Contains("wireless controller") == true || manufacturer?.Contains("sony") == true;
+                    data.inputIconUp.sprite = GetSpriteForBinding(action, bindingId);
                 }
 
-                // Retrieve the correct sprite from PS4 or Xbox mappings.
-                Sprite sprite = isPS4 ? extensionData.ps4.GetSprite(cleanPath) : extensionData.xbox.GetSprite(cleanPath);
-                if (sprite == null) sprite = extensionData.defaultSprite;
-
-                // Assign sprite to the "up" directional icon.
-                if (data.inputIconUp != null) data.inputIconUp.sprite = sprite;
-
-                // Activate only the "up" icon for gamepad, hide others.
+                // Activate only the "up" icon, hide the others.
                 SetIconsActive(data, up: true, down: false, left: false, right: false);
             }
 
@@ -582,71 +568,77 @@ public class InputDisplayManager : MonoBehaviour
 
     /// <summary>
     /// Retrieves the appropriate sprite for a given InputAction and binding ID.
-    /// Selects the sprite based on current control type (keyboard or gamepad).
+    /// For keyboard and mouse bindings, it uses the stored keyName to find the corresponding sprite.
+    /// For gamepad bindings, it selects the sprite based on the current gamepad type (PS4 or Xbox).
     /// </summary>
-    /// <param name="action">The InputAction to query.</param>
-    /// <param name="bindingId">The binding identifier string.</param>
-    /// <returns>The sprite representing the input binding, or null if none found.</returns>
+    /// <param name="action">The InputAction to query for the binding.</param>
+    /// <param name="bindingId">The unique binding identifier string.</param>
+    /// <returns>
+    /// The sprite representing the input binding. 
+    /// Returns the default sprite if the binding or corresponding sprite is not found.
+    /// </returns>
     private Sprite GetSpriteForBinding(InputAction action, string bindingId)
     {
-        if (string.IsNullOrEmpty(bindingId)) return null;
+        // Return default sprite if bindingId is null or empty.
+        if (string.IsNullOrEmpty(bindingId)) return extensionData.defaultSprite;
 
-        // Find the binding index by matching the binding ID.
-        var bindingIndex = action.bindings.ToList().FindIndex(b => b.id.ToString() == bindingId);
-        if (bindingIndex < 0) return null;
+        // Find the InputBinding with the matching ID.
+        var binding = action.bindings.FirstOrDefault(b => b.id.ToString() == bindingId);
+        if (binding == null)
+        {
+            Debug.LogWarning($"[InputDisplayManager] Binding ID '{bindingId}' not found in action '{action.name}'. Using default sprite.", this);
+            return extensionData.defaultSprite;
+        }
 
-        var binding = action.bindings[bindingIndex];
+        // Skip composite bindings for keyboard/mouse since they are handled differently.
+        if (binding.isComposite)
+        {
+            Debug.LogWarning($"[InputDisplayManager] Binding '{binding.name}' is a composite. Skipping for keyboard/mouse display.", this);
+            return extensionData.defaultSprite;
+        }
+
         string path = binding.effectivePath;
 
         if (controlType == ControlType.Keyboard)
         {
-            // If the binding is from keyboard, parse the key name.
-            if (path.StartsWith("<Keyboard>/", StringComparison.OrdinalIgnoreCase))
+            // Handle keyboard or mouse bindings.
+            if (path.StartsWith("<Keyboard>/", StringComparison.OrdinalIgnoreCase) || path.StartsWith("<Mouse>/", StringComparison.OrdinalIgnoreCase))
             {
-                string keyName = path.Replace("<Keyboard>/", "").ToLowerInvariant();
+                int index = extensionData.KeyCodes.FindIndex(k => k.keyName.Equals(path, StringComparison.OrdinalIgnoreCase));
+                var sprite = index >= 0 ? extensionData.KeyCodes[index].sprite : null;
 
-                // Capitalize first letter to match KeyCode enum naming.
-                if (Enum.TryParse(typeof(KeyCode), UpperFirst(keyName), out var result))
-                {
-                    KeyCode key = (KeyCode)result;
+                if (sprite != null) return sprite;
 
-                    // Return the matching sprite or default.
-                    return extensionData.KeyCodes.Find(k => k.keyCode == key).sprite != null ? extensionData.KeyCodes.Find(k => k.keyCode == key).sprite : extensionData.defaultSprite;
-                }
+                // Key exists but has no sprite assigned.
+                Debug.LogError($"[InputDisplayManager] KeyCodes item at index {index} ('{path}') has no sprite assigned. Using default sprite.", this);
+                return extensionData.defaultSprite;
             }
 
-            return extensionData.defaultSprite; // Fallback to default sprite if key parsing failed.
+            // Binding path does not match known keyboard/mouse devices.
+            Debug.LogError($"[InputDisplayManager] Unrecognized binding path '{path}' in keyboard/mouse bindings. Using default sprite.", this);
+            return extensionData.defaultSprite;
         }
         else
         {
-            string cleanPath = path.Split('/').Last(); // For gamepad, get clean path name (e.g., buttonSouth).
+            // Handle gamepad bindings.
+            string cleanPath = path.Split('/').Last(); // Extract the last segment (e.g., buttonSouth).
 
-            // Detect if the current gamepad is a PS4 controller.
+            // Detect if the connected gamepad is a PS4 controller.
             bool isPS4 = false;
             if (Gamepad.current != null)
             {
                 string product = Gamepad.current.description.product?.ToLowerInvariant();
                 string manufacturer = Gamepad.current.description.manufacturer?.ToLowerInvariant();
-
                 isPS4 = product?.Contains("wireless controller") == true || manufacturer?.Contains("sony") == true;
             }
 
-            // Return sprite from PS4 or Xbox mappings or default.
-            return isPS4 ? extensionData.ps4.GetSprite(cleanPath) : extensionData.xbox.GetSprite(cleanPath);
-        }
-    }
+            // Retrieve the sprite from PS4 or Xbox mappings, fallback to default if not found.
+            var sprite = isPS4 ? extensionData.ps4.GetSprite(cleanPath) : extensionData.xbox.GetSprite(cleanPath);
+            if (sprite != null) return sprite;
 
-    /// <summary>
-    /// Converts the first character of the input string to uppercase.
-    /// Used to format strings for enum parsing.
-    /// </summary>
-    /// <param name="input">The string to convert.</param>
-    /// <returns>String with first character uppercased.</returns>
-    private static string UpperFirst(string input)
-    {
-        if (string.IsNullOrEmpty(input)) return input;
-        if (input.Length == 1) return input.ToUpperInvariant();
-        return char.ToUpperInvariant(input[0]) + input[1..];
+            Debug.LogWarning($"[InputDisplayManager] Gamepad binding '{cleanPath}' has no sprite assigned. Using default sprite.", this);
+            return extensionData.defaultSprite;
+        }
     }
 
     /// <summary>
@@ -739,10 +731,17 @@ public class InputDisplayManager : MonoBehaviour
 
         if (enable)
         {
-            image.gameObject.SetActive(true);
+            if (!image.gameObject.activeSelf)
+            {
+                image.gameObject.SetActive(true);
 
-            // Start transition to activated color.
-            StartColorTransition(image, disabledColor, hideTransitionTime);
+                Color startColor = disabledColor;
+                startColor.a = 0f;
+                image.color = startColor;
+
+                // Start transition to activated color.
+                StartColorTransition(image, disabledColor, hideTransitionTime);
+            }
         }
         else
         {
@@ -875,6 +874,40 @@ public class InputDisplayManager : MonoBehaviour
         }
     }
 
+    #endregion
+
+    #region === Cleanup / Utility ===
+
+    /// <summary>
+    /// Centralized cleanup method used by OnDisable and OnDestroy.
+    /// Ensures event subscriptions, bindings, and coroutines are properly released.
+    /// </summary>
+    private void OnClean()
+    {
+        onDeviceChange -= OnDeviceChange; // Stop listening for device changes.
+        UnbindAllEvents(); // Remove all input event bindings.
+        StopAllColorTransitions(); // Stop any ongoing color animations.
+    }
+
+    /// <summary>
+    /// Unbinds all input events from both single input viewers and multiple views input data.
+    /// Ensures that no event callbacks remain registered to prevent memory leaks or unintended behavior.
+    /// </summary>
+    private void UnbindAllEvents()
+    {
+        // Unbind events for single input viewer data.
+        foreach (var data in inputViewerData)
+        {
+            data.inputEvent?.Dispose();
+        }
+
+        // Unbind events for multiple views input data.
+        foreach (var data in inputMultipleViewsData)
+        {
+            data.inputEvent?.Dispose();
+        }
+    }
+
     /// <summary>
     /// Stops all ongoing color transition coroutines and clears the tracking dictionary.
     /// Used typically during cleanup to avoid dangling coroutines.
@@ -886,29 +919,6 @@ public class InputDisplayManager : MonoBehaviour
             if (coroutine != null) StopCoroutine(coroutine);
         }
         colorTransitions.Clear();
-    }
-
-    #endregion
-
-    #region === Unbind Events ===
-
-    /// <summary>
-    /// Unbinds all input events from both single input viewers and multiple views input data.
-    /// Ensures that no event callbacks remain registered to prevent memory leaks or unintended behavior.
-    /// </summary>
-    private void UnbindAllEvents()
-    {
-        // Unbind events for single input viewer data.
-        foreach (var data in inputViewerData)
-        {
-            data.inputEvent?.UnbindAll();
-        }
-
-        // Unbind events for multiple views input data.
-        foreach (var data in inputMultipleViewsData)
-        {
-            data.inputEvent?.UnbindAll();
-        }
     }
 
     #endregion

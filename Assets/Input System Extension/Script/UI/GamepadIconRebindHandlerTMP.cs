@@ -18,37 +18,50 @@ using static UnityEngine.InputSystem.InputSystem;
 /// Handles replacement of text-based input binding display with corresponding gamepad icons.
 /// Listens to RebindControlManagerTMP updates and swaps icon or text depending on the control bound.
 /// </summary>
-[AddComponentMenu("UI/Input System Extension/Gamepad Icon Rebind Handler (TMP)", 4)]
+[AddComponentMenu("UI/Input System Extension/Rebind/Gamepad Icon Rebind Handler (TMP)", 4)]
 public class GamepadIconRebindHandlerTMP : MonoBehaviour
 {
-    [Header("Rebind Control Group Reference")]
+    #region === Inspector Fields ===
 
-    [Tooltip("Parent GameObject containing one or more RebindControlManagerTMP components.")]
-    [SerializeField] private GameObject rebindControlGroup;
+    [Header("Rebind Control Group Reference")]
+    [SerializeField, Tooltip("Parent GameObject containing one or more RebindControlManager components.")]
+    private GameObject rebindControlGroup;
+
+    #endregion
+
+    #region === Private Fields ===
 
     /// <summary>
     /// Reference to the InputSystemExtensionData ScriptableObject containing icon mappings.
     /// </summary>
     private InputSystemExtensionData extensionData;
 
+    #endregion
+
+    #region === Unity Methods ===
+
     /// <summary>
     /// Initializes the handler and hooks up listeners for all RebindControlManagerTMP components found in the specified control group.
     /// </summary>
     private void Start()
     {
-        // Load the ScriptableObject with icon data.
+        // Load the ScriptableObject that contains the mappings for input icons.
         if (extensionData == null) extensionData = GetInputSystemExtensionData();
 
-        // Find all managers under the specified group.
+        // Find all RebindControlManagerTMP components under the specified parent object.
         var managers = rebindControlGroup.GetComponentsInChildren<RebindControlManagerTMP>();
 
+        // Subscribe to each manager's update event and refresh their display on start.
         foreach (var manager in managers)
         {
-            // Subscribe to UI update events and refresh display once at start.
             manager.onUpdateBindingUI.AddListener(OnBindingUIUpdate);
             manager.RefreshBindingDisplay();
         }
     }
+
+    #endregion
+
+    #region === Event Handlers ===
 
     /// <summary>
     /// Called by RebindControlManagerTMP to update the visual display of a binding.
@@ -60,12 +73,13 @@ public class GamepadIconRebindHandlerTMP : MonoBehaviour
     /// <param name="controlPath">The control path string from the Input System binding.</param>
     public void OnBindingUIUpdate(RebindControlManagerTMP manager, string bindingDisplay, string deviceLayoutName, string controlPath)
     {
-        // Skip update if required data is missing or extension asset is not available.
+        // Validate input and ensure extension data is loaded.
         if (string.IsNullOrEmpty(deviceLayoutName) || string.IsNullOrEmpty(controlPath) || extensionData == null) return;
 
-        // Try to get the corresponding icon for the control path.
+        // Initialize the icon variable.
         var icon = default(Sprite);
 
+        // Check the type of controller and use the corresponding icon mapping.
         if (IsFirstLayoutBasedOnSecond(deviceLayoutName, "DualShockGamepad"))
         {
             // Use PS4 icon mapping.
@@ -73,11 +87,11 @@ public class GamepadIconRebindHandlerTMP : MonoBehaviour
         }
         else if (IsFirstLayoutBasedOnSecond(deviceLayoutName, "Gamepad"))
         {
-            // Use Xbox icon mapping (fallback for other generic gamepads).
+            // Use Xbox icon mapping (default for most generic controllers).
             icon = extensionData.xbox.GetSprite(controlPath);
         }
 
-        // Get references to UI elements.
+        // Retrieve all UI references from the manager.
         var textComponent = manager.BindingDisplayText;
         if (textComponent == null)
         {
@@ -106,23 +120,29 @@ public class GamepadIconRebindHandlerTMP : MonoBehaviour
             return;
         }
 
-        // If we have an icon, show it and hide text.
+        // Determine whether to show icons or text.
         if (icon != null)
         {
+            // Icon found: show icons and hide text.
             iconImage.sprite = icon;
             iconImageRebind.sprite = icon;
+
             iconImage.gameObject.SetActive(true);
-            textComponent.gameObject.SetActive(false);
             iconImageRebind.gameObject.SetActive(true);
+
+            textComponent.gameObject.SetActive(false);
             textRebindComponent.gameObject.SetActive(false);
         }
         else
         {
-            // No icon found: fall back to text display.
+            // No icon found: show text instead.
             iconImage.gameObject.SetActive(false);
-            textComponent.gameObject.SetActive(true);
             iconImageRebind.gameObject.SetActive(false);
+
+            textComponent.gameObject.SetActive(true);
             textRebindComponent.gameObject.SetActive(true);
         }
     }
+
+    #endregion
 }

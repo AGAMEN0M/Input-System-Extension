@@ -319,7 +319,7 @@ GameObject:
   - component: {fileID: 185573472}
   - component: {fileID: 185573473}
   m_Layer: 0
-  m_Name: Test Scene
+  m_Name: <Test Scene>
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -354,8 +354,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 80ed0817e5512dd4f9562f92026c473d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  actionJump: {fileID: 1817120968}
-  actionMove: {fileID: 1407833838}
+  actionJump: {fileID: -1946564365313720924, guid: ce1cbda2a91c93444ace4e9434b16b61, type: 3}
+  actionMove: {fileID: 4053732215274948253, guid: ce1cbda2a91c93444ace4e9434b16b61, type: 3}
   targetRigidbody: {fileID: 1145297360}
   speed: 5
   displayManager: {fileID: 5874449468091488400}
@@ -543,7 +543,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 76c392e42b5098c458856cdf6ecaaaa1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_FirstSelected: {fileID: 0}
+  m_FirstSelected: {fileID: 3631993430944416703}
   m_sendNavigationEvents: 1
   m_DragThreshold: 10
 --- !u!4 &254286995
@@ -1412,6 +1412,8 @@ MeshRenderer:
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
   m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -1433,6 +1435,7 @@ MeshRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
@@ -1839,6 +1842,8 @@ MeshRenderer:
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
   m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -1860,6 +1865,7 @@ MeshRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
@@ -1948,6 +1954,8 @@ MeshRenderer:
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
   m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -1969,6 +1977,7 @@ MeshRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
@@ -2205,6 +2214,8 @@ MeshRenderer:
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
   m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -2226,6 +2237,7 @@ MeshRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
@@ -2329,6 +2341,8 @@ MeshRenderer:
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
   m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -2350,6 +2364,7 @@ MeshRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
@@ -2415,7 +2430,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cancelRebindActionReference: {fileID: 4899633194097940021, guid: ce1cbda2a91c93444ace4e9434b16b61, type: 3}
-  inputActionReference: {fileID: 2125175023}
+  inputActionReference: {fileID: 4053732215274948253, guid: ce1cbda2a91c93444ace4e9434b16b61, type: 3}
   targetBindingId: fe58f6b8-88b0-42a8-86a4-99f59376ac5c
   displayOptions: 0
   actionLabel: {fileID: 318204529}
@@ -2810,34 +2825,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1333722201}
   m_CullTransparentMesh: 1
---- !u!114 &1348515832
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fc1515ab76e54f068e2f2207940fab32, type: 3}
-  m_Name: Gameplay/Move
-  m_EditorClassIdentifier: 
-  m_Asset: {fileID: -944628639613478452, guid: ce1cbda2a91c93444ace4e9434b16b61, type: 3}
-  m_ActionId: 9d8fcbff-87d1-43ef-857e-931c84d5bd72
---- !u!114 &1407833838
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fc1515ab76e54f068e2f2207940fab32, type: 3}
-  m_Name: Gameplay/Move
-  m_EditorClassIdentifier: 
-  m_Asset: {fileID: -944628639613478452, guid: ce1cbda2a91c93444ace4e9434b16b61, type: 3}
-  m_ActionId: 9d8fcbff-87d1-43ef-857e-931c84d5bd72
 --- !u!1 &1413957776
 GameObject:
   m_ObjectHideFlags: 0
@@ -3025,20 +3012,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1414499171}
   m_CullTransparentMesh: 0
---- !u!114 &1430543738
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fc1515ab76e54f068e2f2207940fab32, type: 3}
-  m_Name: Gameplay/Interact
-  m_EditorClassIdentifier: 
-  m_Asset: {fileID: -944628639613478452, guid: ce1cbda2a91c93444ace4e9434b16b61, type: 3}
-  m_ActionId: 2bd60403-0923-469e-a3a4-7338b04f6bbc
 --- !u!1 &1436700005
 GameObject:
   m_ObjectHideFlags: 0
@@ -3510,6 +3483,8 @@ MeshRenderer:
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
   m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -3531,6 +3506,7 @@ MeshRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
@@ -3916,20 +3892,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
---- !u!114 &1817120968
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fc1515ab76e54f068e2f2207940fab32, type: 3}
-  m_Name: Gameplay/Interact
-  m_EditorClassIdentifier: 
-  m_Asset: {fileID: -944628639613478452, guid: ce1cbda2a91c93444ace4e9434b16b61, type: 3}
-  m_ActionId: 2bd60403-0923-469e-a3a4-7338b04f6bbc
 --- !u!1 &1855129677
 GameObject:
   m_ObjectHideFlags: 0
@@ -4070,6 +4032,8 @@ MeshRenderer:
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
   m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -4091,6 +4055,7 @@ MeshRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
@@ -4259,20 +4224,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2096877823}
   m_CullTransparentMesh: 1
---- !u!114 &2125175023
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fc1515ab76e54f068e2f2207940fab32, type: 3}
-  m_Name: Gameplay/Move
-  m_EditorClassIdentifier: 
-  m_Asset: {fileID: -944628639613478452, guid: ce1cbda2a91c93444ace4e9434b16b61, type: 3}
-  m_ActionId: 9d8fcbff-87d1-43ef-857e-931c84d5bd72
 --- !u!1 &27301637456019554
 GameObject:
   m_ObjectHideFlags: 0
@@ -5985,7 +5936,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cancelRebindActionReference: {fileID: 4899633194097940021, guid: ce1cbda2a91c93444ace4e9434b16b61, type: 3}
-  inputActionReference: {fileID: 2125175023}
+  inputActionReference: {fileID: 4053732215274948253, guid: ce1cbda2a91c93444ace4e9434b16b61, type: 3}
   targetBindingId: 076f1159-4d00-4240-9bb2-d48719a9446e
   displayOptions: 0
   actionLabel: {fileID: 7166931071217165627}
@@ -6129,14 +6080,14 @@ MonoBehaviour:
   inputViewerData:
   - nameTag: Interact
     enable: 1
-    inputActionReference: {fileID: 1430543738}
+    inputActionReference: {fileID: -1946564365313720924, guid: ce1cbda2a91c93444ace4e9434b16b61, type: 3}
     keyboardId: de604efe-a9ca-4fa6-9d4a-4b0053d61efc
     gamepadId: 50a5adae-36bc-4b42-ac08-266d143e2c62
     inputIcon: {fileID: 1501716235637477194}
   inputMultipleViewsData:
   - nameTag: Move
     enable: 1
-    inputActionReference: {fileID: 1348515832}
+    inputActionReference: {fileID: 4053732215274948253, guid: ce1cbda2a91c93444ace4e9434b16b61, type: 3}
     keyboardId: 076f1159-4d00-4240-9bb2-d48719a9446e
     gamepadId: fe58f6b8-88b0-42a8-86a4-99f59376ac5c
     inputIconUp: {fileID: 2043974474080648517}

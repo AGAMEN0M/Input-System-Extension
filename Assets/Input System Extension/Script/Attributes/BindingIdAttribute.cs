@@ -20,6 +20,8 @@ using UnityEditor;
 using System.Linq;
 #endif
 
+#region === Binding Attribute ===
+
 /// <summary>
 /// Attribute used to link a binding ID field with an InputActionReference field in the same class.
 /// </summary>
@@ -41,7 +43,12 @@ public class BindingIdAttribute : PropertyAttribute
     }
 }
 
+#endregion
+
 #if UNITY_EDITOR
+
+#region === Property Drawer ===
+
 /// <summary>
 /// Custom property drawer that renders a popup of binding options from a referenced InputAction.
 /// </summary>
@@ -135,13 +142,24 @@ public class BindingIdDrawer : PropertyDrawer
         // Draw the popup field with binding options.
         EditorGUI.BeginProperty(position, label, property);
 
+        // Label with tooltip above the popup.
+        EditorGUI.LabelField(position, new GUIContent("", label.tooltip));
+
         int newIndex = EditorGUI.Popup(position, label, selectedIndex, options);
         if (newIndex != selectedIndex && newIndex >= 0)
         {
+            // Update the serialized string value with the new binding ID.
             property.stringValue = optionValues[newIndex];
+
+            // Apply changes and mark the object as dirty so Unity saves it.
+            property.serializedObject.ApplyModifiedProperties();
+            EditorUtility.SetDirty(property.serializedObject.targetObject);
         }
 
         EditorGUI.EndProperty();
     }
 }
+
+#endregion
+
 #endif

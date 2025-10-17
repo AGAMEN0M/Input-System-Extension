@@ -74,7 +74,7 @@ TextureImporter:
     textureFormat: -1
     textureCompression: 1
     compressionQuality: 50
-    crunchedCompression: 0
+    crunchedCompression: 1
     allowsAlphaSplitting: 0
     overridden: 0
     ignorePlatformSupport: 0
@@ -6470,40 +6470,9 @@ TextureImporter:
       - key: SpriteEditor.SliceSettings
         value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":100.0,"y":100.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"slicingType":1,"keepEmptyRects":false,"isAlternate":false}'
     nameFileIdTable:
-      Null Gamepad (66): 1850729224
-      Null Gamepad (67): 315110885
-      Null Gamepad (68): -100476300
-      Null Gamepad (69): -1524840382
-      Null Gamepad (70): -893649259
-      Null Gamepad (71): 1946303435
-      Null Gamepad (72): 1501461837
-      Null Gamepad (73): -207136617
-      Null Gamepad (74): 325625722
-      Null Gamepad (75): -228855419
-      Null Gamepad (76): -1110018672
-      Null Gamepad (77): 13748175
-      Null Gamepad (78): -1955309249
-      Null Gamepad (79): 801734033
-      Null Gamepad (80): -785160765
-      Null Gamepad (81): -1513160339
-      Null Gamepad (82): 432685140
-      Null Gamepad (83): 1640647322
-      Null Gamepad (84): -1140235348
-      Null Gamepad (85): 688478562
-      Null Gamepad (86): -1258909743
-      Null Gamepad (87): 1161962963
-      Null Gamepad (88): -503908582
-      Null Gamepad (89): 898987463
-      Null Gamepad (90): -1484222526
-      Null Gamepad (91): -830283044
-      Null Gamepad (92): -1409846636
-      Null Gamepad (93): 1767853481
-      Null Gamepad (94): 880985678
-      Null Gamepad (95): 524868321
-      Null Gamepad (96): -1497166370
-      Null Gamepad (97): -1197851869
-      Null Gamepad (98): -1487645356
-      Null Gamepad (99): 1511350708
+      Null Gamepad (0): -659820568
+      Null Gamepad (1): -184530119
+      Null Gamepad (10): 1594103094
       Null Gamepad (100): 1596415625
       Null Gamepad (101): -370814723
       Null Gamepad (102): -772764112
@@ -6514,6 +6483,7 @@ TextureImporter:
       Null Gamepad (107): 72314025
       Null Gamepad (108): -960680435
       Null Gamepad (109): -128692284
+      Null Gamepad (11): -874525976
       Null Gamepad (110): -2083012260
       Null Gamepad (111): -483804518
       Null Gamepad (112): 913302145
@@ -6524,6 +6494,7 @@ TextureImporter:
       Null Gamepad (117): -207201714
       Null Gamepad (118): -447533564
       Null Gamepad (119): 623526030
+      Null Gamepad (12): 275941465
       Null Gamepad (120): 1105553083
       Null Gamepad (121): -1013331820
       Null Gamepad (122): -1663346215
@@ -6534,6 +6505,7 @@ TextureImporter:
       Null Gamepad (127): 1033165486
       Null Gamepad (128): 1737484957
       Null Gamepad (129): 692120950
+      Null Gamepad (13): 853592715
       Null Gamepad (130): 2054135708
       Null Gamepad (131): -1515737853
       Null Gamepad (132): 2074259890
@@ -6544,6 +6516,7 @@ TextureImporter:
       Null Gamepad (137): -1895212596
       Null Gamepad (138): -815757386
       Null Gamepad (139): -171906982
+      Null Gamepad (14): -449574913
       Null Gamepad (140): 553849325
       Null Gamepad (141): 382477939
       Null Gamepad (142): -112057601
@@ -6554,6 +6527,7 @@ TextureImporter:
       Null Gamepad (147): 648707513
       Null Gamepad (148): 934845647
       Null Gamepad (149): 1265364577
+      Null Gamepad (15): 1670322576
       Null Gamepad (150): -1605450168
       Null Gamepad (151): 475711300
       Null Gamepad (152): 2019746825
@@ -6564,6 +6538,7 @@ TextureImporter:
       Null Gamepad (157): -1750214435
       Null Gamepad (158): -488604842
       Null Gamepad (159): 1281438849
+      Null Gamepad (16): 251572560
       Null Gamepad (160): -1306400543
       Null Gamepad (161): -1773921859
       Null Gamepad (162): 1731656387
@@ -6574,6 +6549,7 @@ TextureImporter:
       Null Gamepad (167): -564288101
       Null Gamepad (168): 2121742398
       Null Gamepad (169): -1634601200
+      Null Gamepad (17): -60144760
       Null Gamepad (170): 1344303863
       Null Gamepad (171): 116837271
       Null Gamepad (172): -2088358416
@@ -6584,6 +6560,7 @@ TextureImporter:
       Null Gamepad (177): 992366201
       Null Gamepad (178): 1906960710
       Null Gamepad (179): -1395662433
+      Null Gamepad (18): 1198618407
       Null Gamepad (180): 1962361082
       Null Gamepad (181): -1985159250
       Null Gamepad (182): 828692863
@@ -6594,6 +6571,7 @@ TextureImporter:
       Null Gamepad (187): -737100577
       Null Gamepad (188): -602182480
       Null Gamepad (189): 579000664
+      Null Gamepad (19): -2021134375
       Null Gamepad (190): -1708061837
       Null Gamepad (191): 928139952
       Null Gamepad (192): 2017498085
@@ -6604,6 +6582,8 @@ TextureImporter:
       Null Gamepad (197): -1529389106
       Null Gamepad (198): 1879961538
       Null Gamepad (199): 1773303152
+      Null Gamepad (2): 2048707230
+      Null Gamepad (20): -1815376953
       Null Gamepad (200): -194739571
       Null Gamepad (201): 366857235
       Null Gamepad (202): 1100093298
@@ -6614,6 +6594,7 @@ TextureImporter:
       Null Gamepad (207): 1083947749
       Null Gamepad (208): 1226386134
       Null Gamepad (209): 1664938891
+      Null Gamepad (21): -1550578613
       Null Gamepad (210): 1143674710
       Null Gamepad (211): 630115923
       Null Gamepad (212): -1636063965
@@ -6624,6 +6605,7 @@ TextureImporter:
       Null Gamepad (217): -1892185214
       Null Gamepad (218): -1534476356
       Null Gamepad (219): 978762122
+      Null Gamepad (22): -1813725756
       Null Gamepad (220): 2058325506
       Null Gamepad (221): 1249613128
       Null Gamepad (222): -286576281
@@ -6634,6 +6616,7 @@ TextureImporter:
       Null Gamepad (227): 896730606
       Null Gamepad (228): 1902403718
       Null Gamepad (229): -1675378799
+      Null Gamepad (23): -994226958
       Null Gamepad (230): 1309384045
       Null Gamepad (231): 1995276158
       Null Gamepad (232): 1652806797
@@ -6644,6 +6627,7 @@ TextureImporter:
       Null Gamepad (237): 1586973155
       Null Gamepad (238): 2105435572
       Null Gamepad (239): 1721869882
+      Null Gamepad (24): 1188048903
       Null Gamepad (240): -1757795721
       Null Gamepad (241): 1061226845
       Null Gamepad (242): 1972017185
@@ -6654,17 +6638,28 @@ TextureImporter:
       Null Gamepad (247): 1035973656
       Null Gamepad (248): 837256660
       Null Gamepad (249): -471711084
+      Null Gamepad (25): 1786004776
       Null Gamepad (250): 1313958566
       Null Gamepad (251): 1365447541
       Null Gamepad (252): -2094840641
       Null Gamepad (253): 1187097759
       Null Gamepad (254): -1172372908
+      Null Gamepad (26): -814920709
+      Null Gamepad (27): -1398489635
+      Null Gamepad (28): -1402803312
+      Null Gamepad (29): -1015334703
+      Null Gamepad (3): -232305273
+      Null Gamepad (30): 1071839920
+      Null Gamepad (31): -778625822
+      Null Gamepad (32): -2013655141
+      Null Gamepad (33): 2042756578
       Null Gamepad (34): 42280032
       Null Gamepad (35): -5026614
       Null Gamepad (36): -960141036
       Null Gamepad (37): 1800369317
       Null Gamepad (38): 1040745665
       Null Gamepad (39): -438042370
+      Null Gamepad (4): -349283089
       Null Gamepad (40): 1036349455
       Null Gamepad (41): -27411961
       Null Gamepad (42): -1252482803
@@ -6675,6 +6670,7 @@ TextureImporter:
       Null Gamepad (47): -1978323814
       Null Gamepad (48): 752743821
       Null Gamepad (49): -1236914184
+      Null Gamepad (5): 1178030621
       Null Gamepad (50): 2048954042
       Null Gamepad (51): 570715402
       Null Gamepad (52): 980035280
@@ -6685,46 +6681,50 @@ TextureImporter:
       Null Gamepad (57): 157932397
       Null Gamepad (58): 1664241228
       Null Gamepad (59): 854162368
+      Null Gamepad (6): 1011177625
       Null Gamepad (60): -19440341
       Null Gamepad (61): 1115644750
       Null Gamepad (62): 1221122562
       Null Gamepad (63): 365074528
       Null Gamepad (64): -630958672
       Null Gamepad (65): -282783839
-      Null Gamepad (0): -659820568
-      Null Gamepad (1): -184530119
-      Null Gamepad (10): 1594103094
-      Null Gamepad (11): -874525976
-      Null Gamepad (12): 275941465
-      Null Gamepad (13): 853592715
-      Null Gamepad (14): -449574913
-      Null Gamepad (15): 1670322576
-      Null Gamepad (16): 251572560
-      Null Gamepad (17): -60144760
-      Null Gamepad (18): 1198618407
-      Null Gamepad (19): -2021134375
-      Null Gamepad (2): 2048707230
-      Null Gamepad (20): -1815376953
-      Null Gamepad (21): -1550578613
-      Null Gamepad (22): -1813725756
-      Null Gamepad (23): -994226958
-      Null Gamepad (24): 1188048903
-      Null Gamepad (25): 1786004776
-      Null Gamepad (26): -814920709
-      Null Gamepad (27): -1398489635
-      Null Gamepad (28): -1402803312
-      Null Gamepad (29): -1015334703
-      Null Gamepad (3): -232305273
-      Null Gamepad (30): 1071839920
-      Null Gamepad (31): -778625822
-      Null Gamepad (32): -2013655141
-      Null Gamepad (33): 2042756578
-      Null Gamepad (4): -349283089
-      Null Gamepad (5): 1178030621
-      Null Gamepad (6): 1011177625
+      Null Gamepad (66): 1850729224
+      Null Gamepad (67): 315110885
+      Null Gamepad (68): -100476300
+      Null Gamepad (69): -1524840382
       Null Gamepad (7): -817743264
+      Null Gamepad (70): -893649259
+      Null Gamepad (71): 1946303435
+      Null Gamepad (72): 1501461837
+      Null Gamepad (73): -207136617
+      Null Gamepad (74): 325625722
+      Null Gamepad (75): -228855419
+      Null Gamepad (76): -1110018672
+      Null Gamepad (77): 13748175
+      Null Gamepad (78): -1955309249
+      Null Gamepad (79): 801734033
       Null Gamepad (8): -413511562
+      Null Gamepad (80): -785160765
+      Null Gamepad (81): -1513160339
+      Null Gamepad (82): 432685140
+      Null Gamepad (83): 1640647322
+      Null Gamepad (84): -1140235348
+      Null Gamepad (85): 688478562
+      Null Gamepad (86): -1258909743
+      Null Gamepad (87): 1161962963
+      Null Gamepad (88): -503908582
+      Null Gamepad (89): 898987463
       Null Gamepad (9): 119540247
+      Null Gamepad (90): -1484222526
+      Null Gamepad (91): -830283044
+      Null Gamepad (92): -1409846636
+      Null Gamepad (93): 1767853481
+      Null Gamepad (94): 880985678
+      Null Gamepad (95): 524868321
+      Null Gamepad (96): -1497166370
+      Null Gamepad (97): -1197851869
+      Null Gamepad (98): -1487645356
+      Null Gamepad (99): 1511350708
       PS4_Circle: -189095891
       PS4_Cross: 470314980
       PS4_Dpad: 1148789033
